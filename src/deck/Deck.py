@@ -1,13 +1,45 @@
 import random
+from enum import Enum
 
-class card:
+
+class Suit(Enum):
+    """
+    Suit start from 0 to 3
+    """
+    Spades = 0
+    Hearts = 1
+    Clubs = 2
+    Diamonds = 3
+
+
+class Value(Enum):
+    """
+    Value start from 1 to 13
+    """
+    Ace = 1
+    Two = 2
+    Three = 3
+    Four = 4
+    Five = 5
+    Six = 6
+    Seven = 7
+    Eight = 8
+    Nine = 9
+    Ten = 10
+    Jack = 11
+    Queen = 12
+    King = 13
+
+
+class Card:
     def __init__(self, suit, value):
-        self.suit = suit
-        self.value = value
+        self.suit = Suit(suit)
+        self.value = Value(value)
+
 
 class deck:
-    def __init(self, randomDeck):
-        self.facedown = [card("Spades", "Ace"), card("Spades", "2"), card("Spades", "3"), card("Spades", "4"), card("Spades", "5"), card("Spades", "6"), card("Spades", "7"), card("Spades", "8"), card("Spades", "9"), card("Spades", "10"), card("Spades", "Jack"), card("Spades", "Queen"), card("Spades", "King"), card("Hearts", "Ace"), card("Hearts", "2"), card("Hearts", "3"), card("Hearts", "4"), card("Hearts", "5"), card("Hearts", "6"), card("Hearts", "7"), card("Hearts", "8"), card("Hearts", "9"), card("Hearts", "10"), card("Hearts", "Jack"), card("Hearts", "Queen"), card("Hearts", "King"), card("Clubs", "Ace"), card("Clubs", "2"), card("Clubs", "3"), card("Clubs", "4"), card("Clubs", "5"), card("Clubs", "6"), card("Clubs", "7"), card("Clubs", "8"), card("Clubs", "9"), card("Clubs", "10"), card("Clubs", "Jack"), card("Clubs", "Queen"), card("Clubs", "King"), card("Diamonds", "Ace"), card("Diamonds", "2"), card("Diamonds", "3"), card("Diamonds", "4"), card("Diamonds", "5"), card("Diamonds", "6"), card("Diamonds", "7"), card("Diamonds", "8"), card("Diamonds", "9"), card("Diamonds", "10"), card("Diamonds", "Jack"), card("Diamonds", "Queen"), card("Diamonds", "King")]
+    def __init__(self, randomDeck):
+        self.facedown = [Card(i, j) for i in range(0, 5) for j in range(1, 14)]
         if randomDeck:
             self.facedown = random.shuffle(self.facedown)
         self.faceup = []
