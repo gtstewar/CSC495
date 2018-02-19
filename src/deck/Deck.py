@@ -22,6 +22,9 @@ class Value(Enum):
 
 
 class Card:
+    """
+    Card with 2 parameters `suit` and `value`
+    """
     def __init__(self, suit, value):
         self.suit = Suit(suit)
         self.value = Value(value)
@@ -29,7 +32,7 @@ class Card:
 
 class deck:
     def __init__(self, randomDeck):
-        self.facedown = [Card(i, j) for i in range(0, 5) for j in range(1, 14)]
+        self.facedown = [Card(i, j) for i in range(0, 4) for j in range(1, 14)]
         if randomDeck:
             self.facedown = random.shuffle(self.facedown)
         self.faceup = []
