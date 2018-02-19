@@ -16,19 +16,9 @@ class Value(Enum):
     """
     Value start from 1 to 13
     """
-    Ace = 1
-    Two = 2
-    Three = 3
-    Four = 4
-    Five = 5
-    Six = 6
-    Seven = 7
-    Eight = 8
-    Nine = 9
-    Ten = 10
-    Jack = 11
-    Queen = 12
-    King = 13
+    Ace, Two, Three, Four = 1, 2, 3, 4
+    Five, Six, Seven, Eight = 5, 6, 7, 8
+    Nine, Ten, Jack, Queen, King = 9, 10, 11, 12, 13
 
 
 class Card:
