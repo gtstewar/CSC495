@@ -44,17 +44,13 @@ class deck:
         if len(self.facedown) == 0:
             self.facedown = random.shuffle(self.faceup)
             self.faceup = []
-        card = self.facedown[len(self.facedown - 1)]
-        self.facedown[len(self.facedown - 1)] = None
-        return card
+        self.facedown.pop()
 
     def placeTopCardOfDeckOnDiscardPile(self):
         if len(self.facedown) == 0:
             self.facedown = random.shuffle(self.faceup)
             self.faceup = []
-        temp = self.facedown[len(self.facedown - 1)]
-        self.facedown[len(self.facedown - 1)] = None
-        self.faceup.append(temp)
+        self.faceup.append(self.facedown.pop())
 
     def getTopCardofDiscardPile(self):
         return self.faceup[len(self.faceup - 1)]
