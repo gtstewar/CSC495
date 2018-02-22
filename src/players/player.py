@@ -1,7 +1,13 @@
+import sys
+
 class Player():
-    def __init__(self, name, isAI):
+    def __init__(self, isAI, number):
         self.ai = isAI
-        self.name = name
+        if not self.ai:
+            print('Enter your name Player ' + number + ' : ')
+            self.name = sys.stdin.readline
+        else:
+            self.name = 'Computer ' + number
         self.hand = []
 
     def displayHand(self):
