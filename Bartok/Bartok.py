@@ -1,5 +1,5 @@
 from Util import *
-from random import shuffle
+from random import shuffle, choice
 
 
 class Bartok:
@@ -20,8 +20,17 @@ class Bartok:
         while True:
             for player in self.player_list:
                 if player.identify_ai():
-                    # only one step to go
-                    pass
+                    if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
+                                           player.card_in_hand):
+                        candidates = list(filter(
+                            lambda x: bartok_match(
+                                self.deck.get_top_card_of_discard_pile(), x),
+                            player.card_in_hand))
+                        target_card = choice(candidates)
+                        player.toss_card(target_card)
+                        self.deck.face_up.append(target_card)
+                    else:
+                        player.receive_card(self.deck.draw_card_from_top_of_deck())
                 else:
                     player.show_card()
                     if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
