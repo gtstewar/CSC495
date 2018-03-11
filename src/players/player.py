@@ -10,6 +10,9 @@ class Player():
             self.name = 'Computer ' + number
         self.hand = []
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
     def displayHand(self):
         print("current hand")
         print("------------")
@@ -18,13 +21,16 @@ class Player():
             if counter % 3 == 0:
                 print('\n')
             counter += 1
-            print(self.hand.value + " of " + self.hand.suit)
+            print(str(counter) +  '. ' + self.hand.value + " of " + self.hand.suit)
         print("------------")
 
     def run(self):
         return 0
 
-class goFishPlayer(Player):
+class GoFishPlayer(Player):
+    def __init__(self, isAI, number):
+        super(isAI, number)
+
     def checkForCard(self, card):
         for c in self.hand:
             if c.value == card.value and c.suit == card.suit:
