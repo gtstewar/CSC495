@@ -50,10 +50,15 @@ class Deck:
     def shuffle_current_deck(self):
         random.shuffle(self.face_down)
 
-    def draw_card_from_top_of_deck(self):
+    def draw_card_from_top_of_deck(self, left_one=False):
         if self.face_down.__len__() == 0:
-            random.shuffle(self.face_up)
-            self.face_down, self.face_up = self.face_up, []
+            if left_one:
+                self.face_down.append(self.face_up.pop())
+                random.shuffle(self.face_up)
+                self.face_up, self.face_down = self.face_down, self.face_up
+            else:
+                random.shuffle(self.face_up)
+                self.face_down, self.face_up = self.face_up, []
         card = self.face_down.pop()
         return card
 

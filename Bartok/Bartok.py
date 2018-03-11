@@ -15,10 +15,13 @@ class Bartok:
         for _ in range(5):
             for i in self.player_list:
                 i.receive_card(self.deck.draw_card_from_top_of_deck())
+        self.deck.face_up.append(self.deck.face_down.pop())
 
     def run(self):
         while True:
             for player in self.player_list:
+                print("Card for Match is: "
+                      + str(self.deck.get_top_card_of_discard_pile()))
                 if player.identify_ai():
                     if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
                                            player.card_in_hand):
@@ -71,3 +74,7 @@ def bartok_match(c1: Card, c2: Card) -> bool:
 
 def is_exist_match_card(matcher: Card, list_of_cards: list) -> bool:
     return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
+
+
+nnnnaaaaaa = Bartok(['MUR', 'KMR', 'YJSNPI', 'TNOK'])
+nnnnaaaaaa.run()
