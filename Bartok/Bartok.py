@@ -26,15 +26,19 @@ class Bartok:
                 if player.identify_ai():
                     if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
                                            player.card_in_hand):
+                        print(str(player) + " tosses one card: ")
                         candidates = list(filter(
                             lambda x: bartok_match(
                                 self.deck.get_top_card_of_discard_pile(), x),
                             player.card_in_hand))
                         target_card = choice(candidates)
                         player.toss_card(target_card)
+                        print(target_card)
                         self.deck.face_up.append(target_card)
                     else:
+                        print(str(player) + " receives one card.")
                         player.receive_card(self.deck.draw_card_from_top_of_deck())
+                    print("+-----------------------------------+\n")
                 else:
                     player.show_card()
                     if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
@@ -47,7 +51,7 @@ class Bartok:
                         print("Do not have any match, draw one card")
                         player.receive_card(self.deck.draw_card_from_top_of_deck())
                     player.show_card()
-                    print("+-----------------------------------+")
+                    print("+-----------------------------------+\n")
                 if player.is_win():
                     print(str(player) + " wins.")
                     return
@@ -76,7 +80,3 @@ def bartok_match(c1: Card, c2: Card) -> bool:
 
 def is_exist_match_card(matcher: Card, list_of_cards: list) -> bool:
     return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
-
-
-nnnnaaaaaa = Bartok(['MUR', 'KMR', 'YJSNPI', 'TNOK'])
-nnnnaaaaaa.run()
