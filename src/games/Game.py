@@ -32,11 +32,21 @@ class GoFish(Game):
         print('---------------------')
         print("Current Hand:\n")
         player.displayHand()
+        print("Which card would you like to ask for? (Please type the number from the list of cards)")
+        want = sys.stdin.readline
+        # do error checking here
+        print("Who would you like to ask?")
+        who = sys.stdin.readline
+        # do error checking here
 
 
     def run(self):
         print('Welcome to GoooooooooFish\n')
         inPlay = True
+        # Deal cards
+        for i in range(self.playerCount):
+            for j in range(5):  # each player gets 5 cards
+                self.players[i].hand.append(self.deck.drawCardFromTopOfDeck())
         while(inPlay):
             for i in range(self.playerCount):
                 self.turn(self.players[i])
