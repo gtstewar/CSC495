@@ -20,6 +20,7 @@ class Bartok:
     def run(self):
         while True:
             for player in self.player_list:
+                print("+-----------------------------------+")
                 print("Card for Match is: "
                       + str(self.deck.get_top_card_of_discard_pile()))
                 if player.identify_ai():
@@ -46,6 +47,7 @@ class Bartok:
                         print("Do not have any match, draw one card")
                         player.receive_card(self.deck.draw_card_from_top_of_deck())
                     player.show_card()
+                    print("+-----------------------------------+")
                 if player.is_win():
                     print(str(player) + " wins.")
                     return
