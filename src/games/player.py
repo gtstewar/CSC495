@@ -37,3 +37,18 @@ class GoFishPlayer(Player):
                 self.hand.remove(c)
                 return True
         return False
+
+    """ Checks for pairs in player's hand and removes pairs"""
+    def checkForPairs(self):
+        for c1 in self.hand:
+            for c2 in self.hand:
+                if c1 == c2:
+                    self.hand.remove(c1)
+                    self.hand.remove(c2)
+                    break
+
+    def isEmptyHand(self):
+        if len(self.hand) == 0:
+            return True
+        else:
+            return False

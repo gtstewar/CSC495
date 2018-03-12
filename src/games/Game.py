@@ -28,11 +28,17 @@ class GoFish(Game):
     #     for p in self.players:
     #         if not p.__eq__(currentPlayer):
 
-    def ask(self, otherPlayer, card ):
+    def ask(self, player, otherPlayer, card ):
         print('Asking ' + otherPlayer + 'for card...')
         for i in range(self.playerCount):
             if otherPlayer == self.players[i]:
-                self.players[i].checkForCard(self.players[i], card)
+                if self.players[i].checkForCard(self.players[i], card):
+                    player.append(card)
+                    print("Player " + otherPlayer + " has given you the card.")
+                else:
+                    print("Player " + otherPlayer + " does not have the card you asked for. Go fish!")
+                    player.append(self.deck.drawCardFromTopOfDeck())
+                    print("You have drawn a card from the deck.")
 
     def turn(self, player):
         print(player.name + "'s turn")
@@ -58,6 +64,12 @@ class GoFish(Game):
             who = sys.stdin.readline
         self.ask(who, want)
 
+        # removes any pairs in hand
+        player.checkForPairs()
+
+        if player.isEmptyHand():
+            print("You win!")
+            # exit game??? idk what happens here
 
     def run(self):
         print('Welcome to GoooooooooFish\n')
