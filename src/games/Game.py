@@ -1,5 +1,6 @@
-from ..players.player import *
-from ..deck import Deck
+from src.games import Deck
+from src.games.player import *
+
 
 class Game():
     def __init__(self, players, computers):
@@ -20,24 +21,42 @@ class GoFish(Game):
             self.players.append(GoFishPlayer(True, i))
         self.playerCount = len(players)
 
-    def showOptions(self, currentPlayer):
-        print('Ask Player for Card')
-        index = 1
-        for p in self.players:
-            if not p.__eq__(currentPlayer):
+    # commenting out for now
+    # def showOptions(self, currentPlayer):
+    #     print('Ask Player for Card')
+    #     index = 1
+    #     for p in self.players:
+    #         if not p.__eq__(currentPlayer):
 
+    def ask(self, otherPlayer, card ):
+        print('Asking ' + otherPlayer + 'for card...')
+        for i in range(self.playerCount):
+            if otherPlayer == self.players[i]:
+                self.players[i].checkForCard(self.players[i], card)
 
     def turn(self, player):
         print(player.name + "'s turn")
         print('---------------------')
         print("Current Hand:\n")
         player.displayHand()
-        print("Which card would you like to ask for? (Please type the number from the list of cards)")
+
+
+        print("Which card would you like to ask for? (Please type the value and suite of the card separated by a space.")
+        print("Example: 1 Hearts")
         want = sys.stdin.readline
+        temp = want.split
+        want = Deck.Card(temp[0], temp[1])
         # do error checking here
-        print("Who would you like to ask?")
+
+
+
+        print("Who would you like to ask? (Please type a number)")
         who = sys.stdin.readline
-        # do error checking here
+        # error checking
+        while who < 0 or who >= self.playerCount:
+            print("Invalid player. Please enter the number of the player you would like to ask.")
+            who = sys.stdin.readline
+        self.ask(who, want)
 
 
     def run(self):
