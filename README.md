@@ -77,6 +77,7 @@ Enjoy :-)
 > Sounds like some AlphaGo stuff lol.
 
 # Go Fish
+[Example Video Link](https://drive.google.com/open?id=1XKh0GJZnvD7f7Z5LH80eWrEb415avzOz)
 ### How to Win:
 The goal is to have the most books of cards.</br>
 (A book is the set of four cards of the same value, such as a 3 of hearts, a 3 of spades, a 3 of clubs, and a 3 of diamonds.)
