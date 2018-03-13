@@ -23,11 +23,8 @@ def main():
         for i in range(args.simulations):
             goFish = GoFish(args.players, args.computers)
             goFish.run()
-
-    elif args.game == 'Bartok':
-        print('Bartok')
     else:
-        print('Invalid -g argument...must be GoFish or Bartok')
+        print('Invalid -g argument...must be GoFish')
 
     return 0
 
