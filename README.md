@@ -7,7 +7,6 @@ Suh,Amy
 
 This project allows up to four users to play Bartok or Go Fish.
 
-
 # How to Run
 To play, run GameRunner.py must run with the applicable arguments.
 
@@ -47,4 +46,31 @@ Attentiveness -- Players can prevent others from winning by being aware of how m
 There is no real opportunity to bluff in this game
 ### Turn Structure:
 Turn structure remains constant for the first round but can be changed from round to round and even inside a round according to new rules added by the winner of each round
+
+# Go Fish
+### How to Win:
+The goal is to have the most books of cards.</br>
+(A book is the set of four cards of the same value, such as a 3 of hearts, a 3 of spades, a 3 of clubs, and a 3 of diamonds.)
+### Rank of Cards:
+The cards from from 2 (low) to Ace (high).</br>
+Only the card numbers are relevant; suits can be ignored.
+### How to Deal:
+Any player deals one card face up to each player. The player with the lowest card is the dealer. The dealer shuffles the cards.</br>
+For games with three players or more, the dealer deals five cards to each player. For games with two players, each player gets seven cards. The cards are dealt clockwise starting with the dealer.</br>
+The remaining cards are placed face down to form a stock pile.
+### How to Play:
+Each player is dealt five cards. The stack of remaining cards are placed face-down in the center as the draw pile.</br>
+Before beginning the game, each player inspects their hand and removes all "books" of cards, meaning 4 cards of the same value. (e.g. If a player is dealt a 3, 7, 7, 7, 7 they would remove all four 7's, and they would be left with the 3 card)</br>
+Moving clockwise, players take turns asking another player for a given rank of card (“fishing”). This player must have at least one card of the rank s/he has asked for in their hand.</br>
+If the other player has the needed card(s), they must pass all cards of that rank over to the asking player.</br>
+If not, the player must “go fish” by taking one new card from the top of the draw pile.</br>
+If a player runs out of cards during the game, they must pick up a card from the stock pile and play their usual turn by asking another player for cards of that value.
+The play continues until the stock pile is depleted.
+### Strategy & How to Win:
+Luck -- Drawing a card from the draw pile that has the same rank as one of the cards in your hand.</br>
+Memory -- Keeping track of which cards other players have by remember their requests on their turn.
+### How to Bluff:
+There is no real opportunity to bluff in this game
+### Turn Structure:
+Turn structure remains constant the whole game
 
