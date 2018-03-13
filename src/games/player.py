@@ -1,6 +1,6 @@
 import sys
 
-class Player():
+class Player(object):
     def __init__(self, isAI, number, num_books):
         self.ai = isAI
         if not self.ai:
@@ -9,7 +9,7 @@ class Player():
         else:
             self.name = 'Computer ' + str(number + 1)
         self.hand = []
-        num_books = 0
+        self.num_books = 0
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -29,6 +29,21 @@ class Player():
 class GoFishPlayer(Player):
     def __init__(self, isAI, number, num_books):
         super().__init__(isAI, number, num_books)
+
+    def computerPickACard(self):
+        rank = None
+        maxCount = 0
+        for i in range(1, 14):
+            count = 0
+            for c in self.hand:
+                if c.value.value == rank:
+                    count += 1
+                if count > maxCount:
+                    rank = c.value
+                    maxCount = count
+        if rank is not None:
+            return rank
+        return self.hand[0].value
 
     def sortHandByRank(self):
         self.hand.sort()
@@ -63,17 +78,17 @@ class GoFishPlayer(Player):
     #                 break
 
     def checkForBook(self):
-        for i in range(13):
+        for i in range(1, 14):
             count = 0
             for c in self.hand:
-                if c.value == i:
+                if c.value.value == i:
                     count += 1
                     if count == 4:
-                        for k in range(len(self.hand)):
-                            if self.hand[k] == i:
-                                self.hand.remove(k)
-                    self.num_books += 1
-                    return True
+                        for ca in self.hand:
+                            if ca.value.value == i:
+                                self.hand.remove(ca)
+                        self.num_books += 1
+                        return True
         return False
     def isEmptyHand(self):
         if len(self.hand) == 0:
