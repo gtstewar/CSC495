@@ -68,7 +68,10 @@ class GoFishPlayer(Player):
         for c in copy:
             if c.value == cardRank:
                 cardsThatMatch.append(self.hand.pop(i))
-            i += 1
+            else:
+                i += 1
+
+
         return cardsThatMatch
 
     def checkForBook(self):
