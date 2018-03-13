@@ -65,13 +65,18 @@ class GoFishPlayer(Player):
         i = 0
         copy = self.hand
         # temp list to iterate over to prevent indexing problems
-        for c in copy:
+        # for c in copy:
+        #     if c.value == cardRank:
+        #         cardsThatMatch.append(self.hand.pop(i))
+        #     else:
+        #         i += 1
+
+        # adds cards to be given up
+        for c in self.hand:
             if c.value == cardRank:
-                cardsThatMatch.append(self.hand.pop(i))
-            else:
-                i += 1
-
-
+                cardsThatMatch.append(c)
+        # updates self.hand to have cards not in cardThatMatch
+        self.hand = [c for c in self.hand if c not in cardsThatMatch]
         return cardsThatMatch
 
     def checkForBook(self):
