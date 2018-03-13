@@ -37,7 +37,8 @@ class Bartok:
                         self.deck.face_up.append(target_card)
                     else:
                         print(str(player) + " receives one card.")
-                        player.receive_card(self.deck.draw_card_from_top_of_deck())
+                        player.receive_card(
+                            self.deck.draw_card_from_top_of_deck(left_one=True))
                     print("+-----------------------------------+\n")
                 else:
                     player.show_card()
@@ -49,7 +50,8 @@ class Bartok:
                         self.deck.face_up.append(target_card)
                     else:
                         print("Do not have any match, draw one card")
-                        player.receive_card(self.deck.draw_card_from_top_of_deck())
+                        player.receive_card(
+                            self.deck.draw_card_from_top_of_deck(left_one=True))
                     player.show_card()
                     print("+-----------------------------------+\n")
                 if player.is_win():
