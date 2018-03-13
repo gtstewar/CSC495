@@ -32,3 +32,7 @@ No kidding now... If you want to choose the card, just choose the index number f
 The computer will take care of the rest.
 
 Enjoy :-)
+
+> BTW, if you are not sure about what's happening, you can pass a empty list into `Bartok` class.
+> The algorithm of bartok will take care of itself, then finish all the stuff till some AI win.
+> Sounds like some AlphaGo stuff lol.
