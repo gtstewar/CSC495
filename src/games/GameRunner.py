@@ -17,10 +17,6 @@ def main():
     args = parse_arguments()
 
     if args.game == 'GoFish':
-        print('GoFish')
-        print(args.players)
-        print(args.computers)
-
         goFish = GoFish(args.players, args.computers)
         goFish.run()
 

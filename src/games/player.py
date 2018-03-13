@@ -4,10 +4,10 @@ class Player():
     def __init__(self, isAI, number):
         self.ai = isAI
         if not self.ai:
-            print('Enter your name Player ' + str(number) + ' : ')
-            self.name = sys.stdin.readline()
+            print('Enter your name Player ' + str(number + 1) + ' : ')
+            self.name = sys.stdin.readline().strip()
         else:
-            self.name = 'Computer ' + str(number)
+            self.name = 'Computer ' + str(number + 1)
         self.hand = []
 
     def __eq__(self, other):
@@ -29,6 +29,9 @@ class GoFishPlayer(Player):
     def __init__(self, isAI, number):
         super().__init__(isAI, number)
 
+    def sortHandByRank(self):
+        self.hand.sort()
+
     def checkForCard(self, card):
         for c in self.hand:
             if c.value == card.value and c.suit == card.suit:
@@ -43,10 +46,11 @@ class GoFishPlayer(Player):
 
     def giveUpAllCardsByRank(self, cardRank):
         cardsThatMatch = []
-        for i in range(len(self.hand)):
-            c = self.hand[i]
+        i = 0
+        for c in self.hand:
             if c.value == cardRank:
                 cardsThatMatch.append(self.hand.pop(i))
+            i += 1
         return cardsThatMatch
     """ Checks for pairs in player's hand and removes pairs"""
     def checkForPairs(self):

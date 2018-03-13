@@ -29,6 +29,8 @@ class Card:
         self.suit = Suit(suit)
         self.value = Value(value)
 
+    def __lt__(self, other):
+        return self.value.value < other.value.value
 
 class deck:
     def __init__(self, randomDeck):
