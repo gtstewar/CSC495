@@ -166,7 +166,7 @@ class GoFish(Game):
             # check for a tie
             for i in range(self.playerCount):
                 if self.players[i].num_books == max:
-                    winners.append(player[i])
+                    winners.append(self.players[i])
                 #announce the winner(s)
                 names = []
                 for w in winners:
