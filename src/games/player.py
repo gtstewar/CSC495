@@ -1,7 +1,7 @@
 import sys
 
 class Player():
-    def __init__(self, isAI, number):
+    def __init__(self, isAI, number, num_books):
         self.ai = isAI
         if not self.ai:
             print('Enter your name Player ' + str(number + 1) + ' : ')
@@ -9,6 +9,7 @@ class Player():
         else:
             self.name = 'Computer ' + str(number + 1)
         self.hand = []
+        num_books = 0
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -26,8 +27,8 @@ class Player():
         return 0
 
 class GoFishPlayer(Player):
-    def __init__(self, isAI, number):
-        super().__init__(isAI, number)
+    def __init__(self, isAI, number, num_books):
+        super().__init__(isAI, number, num_books)
 
     def sortHandByRank(self):
         self.hand.sort()
@@ -52,14 +53,14 @@ class GoFishPlayer(Player):
                 cardsThatMatch.append(self.hand.pop(i))
             i += 1
         return cardsThatMatch
-    """ Checks for pairs in player's hand and removes pairs"""
-    def checkForPairs(self):
-        for c1 in self.hand:
-            for c2 in self.hand:
-                if c1 == c2:
-                    self.hand.remove(c1)
-                    self.hand.remove(c2)
-                    break
+    # """ Checks for pairs in player's hand and removes pairs"""
+    # def checkForPairs(self):
+    #     for c1 in self.hand:
+    #         for c2 in self.hand:
+    #             if c1 == c2:
+    #                 self.hand.remove(c1)
+    #                 self.hand.remove(c2)
+    #                 break
 
     def checkForBook(self):
         for i in range(13):
@@ -71,6 +72,7 @@ class GoFishPlayer(Player):
                         for k in range(len(self.hand)):
                             if self.hand[k] == i:
                                 self.hand.remove(k)
+                    self.num_books += 1
                     return True
         return False
     def isEmptyHand(self):

@@ -25,9 +25,9 @@ class GoFish(Game):
         print('---------------------------------------------------------------')
         super().__init__(players, computers)
         for i in range(0, players):
-            self.players.append(GoFishPlayer(False, i))
+            self.players.append(GoFishPlayer(False, i, 0))
         for i in range(0, computers):
-            self.players.append(GoFishPlayer(True, i))
+            self.players.append(GoFishPlayer(True, i, 0))
         self.playerCount = len(self.players)
 
     def getPlayerChoicesAndPrint(self, player):
@@ -60,6 +60,9 @@ class GoFish(Game):
         turnString = '\n' + player.name + '\'s turn'
         print(turnString)
         print('********************************')
+        if player.isEmptyHand():
+            print("You have no cards to play! Drawing one card from the top of the deck...")
+            player.hand.append(self.deck.drawCardFromTopOfDeck())
         player.displayHand()
         print("Which card would you like to ask for? (Please type the number beside the card you want to ask for (Ex: 1))")
         print('>')
@@ -86,9 +89,30 @@ class GoFish(Game):
         # removes any books in hand
         player.checkForBook()
 
-        if player.isEmptyHand():
-            print("You win!!!")
+        # Empty deck: END OF GAME
+        if self.deck.isEmpty:
+            print("The draw pile is now empty.")
             self.inPlay = False
+
+            # find players' max number of books
+            max = 0
+            winners = []
+            for i in range(self.playerCount):
+                if self.players[i].num_books > max:
+                   max = self.players[i].num_books
+            # check for a tie
+            for i in range(self.playerCount):
+                if self.players[i].num_books == max:
+                    winners.append(player[i])
+
+            # announce one winner
+            if len(winners) == 1:
+                print(winners[0].name + " has " + max + " book(s). " + winners[0].name + " wins!")
+            else:   # announce multiple winners
+                names = []
+                for i in range(self.playerCount):
+                    names.append(self.players[i].name)
+                print(str(names) + " have " + max + " book(s). " + str(names) + " win!")
         else:
             print('Your hand is now:')
             player.displayHand()
