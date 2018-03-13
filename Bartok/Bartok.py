@@ -90,7 +90,3 @@ def bartok_match(c1: Card, c2: Card) -> bool:
 
 def is_exist_match_card(matcher: Card, list_of_cards: list) -> bool:
     return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
-
-
-nnnnnaaaa = Bartok(["YJSNPI", "4CHAN", "EARTHCHAN"])
-nnnnnaaaa.run()
