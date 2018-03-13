@@ -1,4 +1,4 @@
-# CSC495 GROUP O
+# CSC495
 Programming languages project
 
 Stewart,Grady
@@ -8,9 +8,10 @@ Su,Hang
 Suh,Amy
 
 
-> This is just a README on branch `Bartok`.
+## GoFish
 
-## Usage
+
+## Bartok
 
 ```python
 from Game_2 import Bartok
