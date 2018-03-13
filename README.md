@@ -8,7 +8,7 @@ Suh,Amy
 This project allows up to four users to play Bartok or Go Fish.
 
 # How to Run
-To play, run GameRunner.py must run with the applicable arguments.
+First, clone this repository. To play, run GameRunner.py with the applicable arguments explained below.
 
 If users desire to play Go Fish, GameRunner.py should be run with the "-g GoFish" argument.</br>
 If users desire to play Bartok, GameRunner.py should be run with the "-g Bartok" argument.</br>
