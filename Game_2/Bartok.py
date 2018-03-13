@@ -1,4 +1,4 @@
-from Util import *
+from Game_2.Util import *
 from random import shuffle, choice
 
 
