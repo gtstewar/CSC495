@@ -1,5 +1,5 @@
-from src.games import Deck
-from src.games.player import *
+from src.GoFish import Deck
+from src.GoFish.player import *
 import random
 
 def RepresentsInt(s):

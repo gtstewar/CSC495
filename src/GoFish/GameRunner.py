@@ -1,5 +1,5 @@
 import argparse
-from src.games.Game import *
+from src.GoFish.Game import *
 
 def parse_arguments():
   parser = argparse.ArgumentParser(description = 'A GameRunner')

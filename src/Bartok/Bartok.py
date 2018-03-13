@@ -1,4 +1,4 @@
-from Util import *
+from src.Bartok.Util import *
 from random import shuffle, choice
 
 
