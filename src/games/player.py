@@ -63,19 +63,13 @@ class GoFishPlayer(Player):
     def giveUpAllCardsByRank(self, cardRank):
         cardsThatMatch = []
         i = 0
-        for c in self.hand:
+        copy = self.hand
+        # temp list to iterate over to prevent indexing problems
+        for c in copy:
             if c.value == cardRank:
                 cardsThatMatch.append(self.hand.pop(i))
             i += 1
         return cardsThatMatch
-    # """ Checks for pairs in player's hand and removes pairs"""
-    # def checkForPairs(self):
-    #     for c1 in self.hand:
-    #         for c2 in self.hand:
-    #             if c1 == c2:
-    #                 self.hand.remove(c1)
-    #                 self.hand.remove(c2)
-    #                 break
 
     def checkForBook(self):
         for i in range(1, 14):
@@ -84,12 +78,15 @@ class GoFishPlayer(Player):
                 if c.value.value == i:
                     count += 1
                     if count == 4:
-                        for ca in self.hand:
+                        print("You have a book!")
+                        for ca in reversed(self.hand):
                             if ca.value.value == i:
                                 self.hand.remove(ca)
+                       # self.hand[:] = [x for x in self.hand if not c.value.value]
                         self.num_books += 1
                         return True
         return False
+
     def isEmptyHand(self):
         if len(self.hand) == 0:
             return True
