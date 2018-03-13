@@ -1,5 +1,6 @@
 from Util import *
 from random import shuffle, choice
+import re
 
 
 class Bartok:
@@ -45,7 +46,9 @@ class Bartok:
                     if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
                                            player.card_in_hand):
                         print("Please toss one card, at least one card match")
-                        target_card = query_for_card(player.card_in_hand)
+                        target_card =\
+                            query_for_card(player.card_in_hand,
+                                           self.deck.get_top_card_of_discard_pile())
                         player.toss_card(target_card)
                         self.deck.face_up.append(target_card)
                     else:
@@ -59,16 +62,21 @@ class Bartok:
                     return
 
 
-def query_for_card(list_of_card: list):
+def query_for_card(list_of_card: list, matcher: Card):
     print("Give me a card: ")
     while True:
-        card_val = list(map(int, input().split(',')))
-        if card_val.__len__() is not 2:
-            continue
-        target_card = Card(card_val[0], card_val[1])
-        if any(map(lambda x: x == target_card, list_of_card)):
+        while True:
+            try:
+                card_val = int(input())
+                target_card = list_of_card[card_val]
+            except Exception:
+                print("INPUT FORMAT ERROR, RE-INPUT")
+                continue
+            break
+        if bartok_match(list_of_card[card_val], matcher):
             return target_card
         else:
+            print("ERROR IN CHOOSING THE CARD, DO NOT MATCH, RE-CHOOSE")
             continue
 
 
@@ -82,3 +90,7 @@ def bartok_match(c1: Card, c2: Card) -> bool:
 
 def is_exist_match_card(matcher: Card, list_of_cards: list) -> bool:
     return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
+
+
+nnnnnaaaa = Bartok(["YJSNPI", "4CHAN", "EARTHCHAN"])
+nnnnnaaaa.run()

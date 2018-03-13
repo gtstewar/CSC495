@@ -29,7 +29,7 @@ class Player:
     def show_card(self):
         print(self.name + " " + "got:")
         if self.card_in_hand.__len__() > 0:
-            for card in self.card_in_hand:
-                print(card)
+            for index, card in enumerate(self.card_in_hand):
+                print(index, "->", card)
         else:
             print("No card in hand")
