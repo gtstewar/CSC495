@@ -1,6 +1,5 @@
 from Util import *
 from random import shuffle, choice
-import re
 
 
 class Bartok:
