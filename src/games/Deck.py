@@ -34,21 +34,23 @@ class deck:
     def __init__(self, randomDeck):
         self.facedown = [Card(i, j) for i in range(0, 4) for j in range(1, 14)]
         if randomDeck:
-            self.facedown = random.shuffle(self.facedown)
+            random.shuffle(self.facedown)
         self.faceup = []
 
     def shuffleCurrentDeck(self):
-        self.facedown = random.shuffle(self.facedown)
+        random.shuffle(self.facedown)
 
     def drawCardFromTopOfDeck(self):
         if len(self.facedown) == 0:
-            self.facedown = random.shuffle(self.faceup)
+            random.shuffle(self.faceup)
+            self.facedown = self.faceup
             self.faceup = []
-        self.facedown.pop()
+        return self.facedown.pop()
 
     def placeTopCardOfDeckOnDiscardPile(self):
         if len(self.facedown) == 0:
-            self.facedown = random.shuffle(self.faceup)
+            random.shuffle(self.faceup)
+            self.facedown = self.faceup
             self.faceup = []
         self.faceup.append(self.facedown.pop())
 

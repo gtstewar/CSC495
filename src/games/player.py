@@ -4,24 +4,22 @@ class Player():
     def __init__(self, isAI, number):
         self.ai = isAI
         if not self.ai:
-            print('Enter your name Player ' + number + ' : ')
-            self.name = sys.stdin.readline
+            print('Enter your name Player ' + str(number) + ' : ')
+            self.name = sys.stdin.readline()
         else:
-            self.name = 'Computer ' + number
+            self.name = 'Computer ' + str(number)
         self.hand = []
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
     def displayHand(self):
-        print("current hand")
+        print("Current hand")
         print("------------")
         counter = 1
         for card in self.hand:
-            if counter % 3 == 0:
-                print('\n')
+            print(str(counter) +  '. ' + card.value.name + " of " + card.suit.name)
             counter += 1
-            print(str(counter) +  '. ' + self.hand.value + " of " + self.hand.suit)
         print("------------")
 
     def run(self):
@@ -29,15 +27,27 @@ class Player():
 
 class GoFishPlayer(Player):
     def __init__(self, isAI, number):
-        super(isAI, number)
+        super().__init__(isAI, number)
 
     def checkForCard(self, card):
         for c in self.hand:
             if c.value == card.value and c.suit == card.suit:
-                self.hand.remove(c)
                 return True
         return False
 
+    def checkForCardByRank(self, cardRank):
+        for c in self.hand:
+            if c.value == cardRank:
+                return True
+        return False
+
+    def giveUpAllCardsByRank(self, cardRank):
+        cardsThatMatch = []
+        for i in range(len(self.hand)):
+            c = self.hand[i]
+            if c.value == cardRank:
+                cardsThatMatch.append(self.hand.pop(i))
+        return cardsThatMatch
     """ Checks for pairs in player's hand and removes pairs"""
     def checkForPairs(self):
         for c1 in self.hand:
@@ -47,6 +57,18 @@ class GoFishPlayer(Player):
                     self.hand.remove(c2)
                     break
 
+    def checkForBook(self):
+        for i in range(13):
+            count = 0
+            for c in self.hand:
+                if c.value == i:
+                    count += 1
+                    if count == 4:
+                        for k in range(len(self.hand)):
+                            if self.hand[k] == i:
+                                self.hand.remove(k)
+                    return True
+        return False
     def isEmptyHand(self):
         if len(self.hand) == 0:
             return True

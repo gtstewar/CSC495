@@ -10,77 +10,93 @@ class Game():
         if (players + computers) <= 1:
             raise Exception("Must have at least 2 players")
         self.players = []
-        self.deck = Deck(True)
+        self.deck = Deck.deck(True)
+        print (len(self.deck.facedown))
+        for card in self.deck.facedown:
+            print(card.value)
+            print(card.suit)
+        self.inPlay = True
+        self.winner = None
+
 
 class GoFish(Game):
     def __init__(self, players, computers):
-        super.__init__(self, players, computers)
+        super().__init__(players, computers)
         for i in range(0, players):
             self.players.append(GoFishPlayer(False, i))
         for i in range(0, computers):
             self.players.append(GoFishPlayer(True, i))
-        self.playerCount = len(players)
+        self.playerCount = len(self.players)
 
-    # commenting out for now
-    # def showOptions(self, currentPlayer):
-    #     print('Ask Player for Card')
-    #     index = 1
-    #     for p in self.players:
-    #         if not p.__eq__(currentPlayer):
+    def getPlayerChoicesAndPrint(self, player):
+        choicesDic = {}
+        iterator = 1
+        for p in self.players:
+            if not p.__eq__(player):
+                choicesDic.insert(iterator, p)
+                iterator += 1
 
-    def ask(self, player, otherPlayer, card ):
-        print('Asking ' + otherPlayer + 'for card...')
-        for i in range(self.playerCount):
-            if otherPlayer == self.players[i]:
-                if self.players[i].checkForCard(self.players[i], card):
-                    player.append(card)
-                    print("Player " + otherPlayer + " has given you the card.")
-                else:
-                    print("Player " + otherPlayer + " does not have the card you asked for. Go fish!")
-                    player.append(self.deck.drawCardFromTopOfDeck())
-                    print("You have drawn a card from the deck.")
+        for k in choicesDic.keys():
+            print(str(k) + ' ' + choicesDic[k].name)
+
+        return choicesDic
+
+    def ask(self, player, otherPlayer, cardRank):
+        print('Asking ' + otherPlayer.name + 'for card...')
+        if otherPlayer.checkForCardByRank(cardRank):
+            cardsReceived = otherPlayer.giveUpAllCardsByRank(cardRank)
+            for c in cardsReceived:
+                player.hand.append(c)
+            print("Player " + otherPlayer.name + " has given you " + len(cardsReceived) + " of cardRank " + str(cardRank))
+        else:
+            print("Player " + otherPlayer.name + " does not have the card you asked for. Go fish!")
+            player.hand.append(self.deck.drawCardFromTopOfDeck())
+            print("You have drawn a card from the deck.")
 
     def turn(self, player):
-        print(player.name + "'s turn")
+        turnString = player.name + "'s turn"
+        print(turnString)
         print('---------------------')
-        print("Current Hand:\n")
         player.displayHand()
-
-
-        print("Which card would you like to ask for? (Please type the value and suite of the card separated by a space.")
-        print("Example: 1 Hearts")
-        want = sys.stdin.readline
-        temp = want.split
-        want = Deck.Card(temp[0], temp[1])
-        # do error checking here
-
-
-
+        print("Which card would you like to ask for? (Please type the number beside the card you want to ask for (Ex: 1))")
+        print('>')
+        want = sys.stdin.readline()
+        want = int(want)
+        while (want < 1) or (want > len(player.hand)):
+            print('choice must be a card that is in your hand')
+            want = sys.stdin.readline
+        want = player.hand[want - 1].value
         print("Who would you like to ask? (Please type a number)")
+        otherPlayers = self.getPlayerChoicesAndPrint(player)
         who = sys.stdin.readline
         # error checking
-        while who < 0 or who >= self.playerCount:
+        while who not in otherPlayers.keys():
             print("Invalid player. Please enter the number of the player you would like to ask.")
             who = sys.stdin.readline
-        self.ask(who, want)
+        otherPlayer = otherPlayers[who]
+        self.ask(player, who, want)
 
         # removes any pairs in hand
-        player.checkForPairs()
+        player.checkForBooks()
 
         if player.isEmptyHand():
             print("You win!")
-            # exit game??? idk what happens here
+            self.inPlay = False
+
 
     def run(self):
         print('Welcome to GoooooooooFish\n')
-        inPlay = True
         # Deal cards
         for i in range(self.playerCount):
             for j in range(5):  # each player gets 5 cards
                 self.players[i].hand.append(self.deck.drawCardFromTopOfDeck())
-        while(inPlay):
+
+        print(len(self.players[0].hand))
+        for card in self.players[0].hand:
+            print (card.value)
+        print (len(self.deck.facedown))
+        while self.inPlay:
             for i in range(self.playerCount):
                 self.turn(self.players[i])
-
-
-
+                if not self.inPlay:
+                    return self.players[i]
