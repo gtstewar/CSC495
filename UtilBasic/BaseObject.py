@@ -3,7 +3,7 @@ class BaseObject(object):
     def __methods__(self):
         """Show methods for the class"""
         return '\n'.join([i for i in sorted(type(self).__dict__)
-                          if i[0] is not '_'])
+                          if not str(i).startswith('_')])
 
     def __repr__(self):
         """Class, Show your identity!"""
