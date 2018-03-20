@@ -50,7 +50,7 @@ class Deck:
     def shuffle_current_deck(self):
         random.shuffle(self.face_down)
 
-    def draw_card_from_top_of_deck(self, left_one=False):
+    def draw_card_from_deck_top(self, left_one=False):
         if self.face_down.__len__() == 0:
             if left_one:
                 self.face_down.append(self.face_up.pop())
@@ -62,7 +62,7 @@ class Deck:
         card = self.face_down.pop()
         return card
 
-    def get_top_card_of_discard_pile(self):
+    def get_discard_pile_top(self):
         return self.face_up[self.face_up.__len__() - 1]
 
     def place_card_on_discard_pile(self, card):

@@ -1,4 +1,4 @@
-from Game_2.Util import *
+from UtilCards import *
 from random import shuffle, choice
 
 
@@ -9,27 +9,29 @@ class Bartok:
         self.deck = Deck(True)
         self.player_list = []
         self.player_list += list(map(lambda x: Player(x), people_array))
-        self.player_list += list(map(lambda x: Player("An AI Player " + str(x), True),
-                                 list(range(4 - list(people_array).__len__()))))
+        self.player_list += list(
+            map(lambda x: Player("An AI Player " + str(x), True),
+                list(range(4 - list(people_array).__len__()))))
         shuffle(self.player_list)
         for _ in range(5):
             for i in self.player_list:
-                i.receive_card(self.deck.draw_card_from_top_of_deck())
+                i.receive_card(self.deck.draw_card_from_deck_top())
         self.deck.face_up.append(self.deck.face_down.pop())
 
     def run(self):
         while True:
             for player in self.player_list:
                 print("+-----------------------------------+")
-                print("Card for Match is: "
-                      + str(self.deck.get_top_card_of_discard_pile()))
+                print("Card for Match is: " +
+                      str(self.deck.get_discard_pile_top()))
                 if player.identify_ai():
-                    if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
-                                           player.card_in_hand):
+                    if is_exist_match_card(
+                            self.deck.get_discard_pile_top(),
+                            player.card_in_hand):
                         print(str(player) + " tosses one card: ")
                         candidates = list(filter(
                             lambda x: bartok_match(
-                                self.deck.get_top_card_of_discard_pile(), x),
+                                self.deck.get_discard_pile_top(), x),
                             player.card_in_hand))
                         target_card = choice(candidates)
                         player.toss_card(target_card)
@@ -38,22 +40,25 @@ class Bartok:
                     else:
                         print(str(player) + " receives one card.")
                         player.receive_card(
-                            self.deck.draw_card_from_top_of_deck(left_one=True))
+                            self.deck.draw_card_from_deck_top(
+                                left_one=True))
                     print("+-----------------------------------+\n")
                 else:
                     player.show_card()
-                    if is_exist_match_card(self.deck.get_top_card_of_discard_pile(),
-                                           player.card_in_hand):
+                    if is_exist_match_card(
+                            self.deck.get_discard_pile_top(),
+                            player.card_in_hand):
                         print("Please toss one card, at least one card match")
-                        target_card =\
+                        target_card = \
                             query_for_card(player.card_in_hand,
-                                           self.deck.get_top_card_of_discard_pile())
+                                           self.deck.get_discard_pile_top())
                         player.toss_card(target_card)
                         self.deck.face_up.append(target_card)
                     else:
                         print("Do not have any match, draw one card")
                         player.receive_card(
-                            self.deck.draw_card_from_top_of_deck(left_one=True))
+                            self.deck.draw_card_from_deck_top(
+                                left_one=True))
                     player.show_card()
                     print("+-----------------------------------+\n")
                 if player.is_win():
@@ -61,7 +66,7 @@ class Bartok:
                     return
 
 
-def query_for_card(list_of_card: list, matcher: Card):
+def query_for_card(list_of_card, matcher):
     print("Give me a card: ")
     while True:
         while True:
@@ -79,7 +84,7 @@ def query_for_card(list_of_card: list, matcher: Card):
             continue
 
 
-def bartok_match(c1: Card, c2: Card) -> bool:
+def bartok_match(c1, c2):
     if c1.suit == c2.suit:
         return True
     elif c1.value == c2.value:
@@ -87,5 +92,5 @@ def bartok_match(c1: Card, c2: Card) -> bool:
     return False
 
 
-def is_exist_match_card(matcher: Card, list_of_cards: list) -> bool:
+def is_exist_match_card(matcher, list_of_cards):
     return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
