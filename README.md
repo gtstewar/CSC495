@@ -47,7 +47,7 @@ There is no real opportunity to bluff in this game
 ### Turn Structure:
 Turn structure remains constant for the first round but can be changed from round to round and even inside a round according to new rules added by the winner of each round
 
-## Usage:
+## Usage and Video:
 
 ```python
 from Game_2 import Bartok
@@ -70,11 +70,14 @@ The computer will take care of the rest.
 
 Enjoy :-)
 
+[Example Video Link](https://drive.google.com/file/d/12c5LgeVuH6CAJKypfPC83gH4dDMLdOU0/view?usp=sharing)
+
 > BTW, if you are not sure about what's happening, you can pass a empty list into `Bartok` class.
 > The algorithm of bartok will take care of itself, then finish all the stuff till some AI win.
 > Sounds like some AlphaGo stuff lol.
 
 # Go Fish
+[Example Video Link](https://drive.google.com/open?id=1XKh0GJZnvD7f7Z5LH80eWrEb415avzOz)
 ### How to Win:
 The goal is to have the most books of cards.</br>
 (A book is the set of four cards of the same value, such as a 3 of hearts, a 3 of spades, a 3 of clubs, and a 3 of diamonds.)
