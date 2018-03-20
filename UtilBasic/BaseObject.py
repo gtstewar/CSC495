@@ -8,4 +8,10 @@ class BaseObject(object):
 
     def __repr__(self):
         """Class, Show your identity!"""
-        return "name: " + self.__class__.__name__ + "\n" + self.__methods__()
+        information = "name: " + self.__class__.__name__
+        if self.__doc__.__len__() != 0:
+            information += "\n" + self.__doc__
+        if self.__methods__().__len__() != 0:
+            information += "\n" + "available methods: "
+            information += "\n" + self.__methods__()
+        return information

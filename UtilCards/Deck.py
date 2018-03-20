@@ -1,12 +1,11 @@
 import random
-from enum import Enum
 import time
+from enum import Enum
+from UtilBasic import *
 
 
 class Suit(Enum):
-    """
-    Suit start from 0 to 3
-    """
+    """Suit start from 0 to 3"""
     Spades = 0
     Hearts = 1
     Clubs = 2
@@ -14,18 +13,14 @@ class Suit(Enum):
 
 
 class Value(Enum):
-    """
-    Value start from 1 to 13
-    """
+    """Value start from 1 to 13"""
     Ace, Two, Three, Four = 1, 2, 3, 4
     Five, Six, Seven, Eight = 5, 6, 7, 8
     Nine, Ten, Jack, Queen, King = 9, 10, 11, 12, 13
 
 
-class Card:
-    """
-    Card with 2 parameters `suit` and `value`
-    """
+class Card(BaseObject):
+    """Card with 2 parameters `suit` and `value`"""
     def __init__(self, suit, value):
         self.suit = Suit(suit)
         self.value = Value(value)
@@ -37,7 +32,7 @@ class Card:
         return str(self.suit) + " and " + str(self.value)
 
 
-class Deck:
+class Deck(BaseObject):
     def __init__(self, is_random_deck, seed_init=time.time()):
         random.seed(seed_init)
         self.face_down = [Card(i, j)
