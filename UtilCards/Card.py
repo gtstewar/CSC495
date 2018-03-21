@@ -1,5 +1,5 @@
 from enum import Enum
-from UtilItpr import *
+from ScriptInterpreter import *
 
 
 class Suit(Enum):

@@ -9,7 +9,10 @@ class BaseObject(object):
                 if not str(i).startswith('_')]
 
     def __repr__(self):
-        """Class, Show your identity!"""
+        """
+        Class, Show your identity!
+        Mainly three parts: doc, methods, attributes
+        """
         information = ["name: " + self.__class__.__name__]
         if self.__doc__ is not None:
             information.append("---")
