@@ -19,6 +19,7 @@ class Game():
                 else:
                     self.environment.currentPlayer = self.environment.players[i + 1]
                     break
+
 class GoFish(Game):
 
     def validCardInput(self, card):

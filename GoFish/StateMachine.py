@@ -57,7 +57,8 @@ class FSM(object):
 
 class Start(State):
     def __init__(self, name, environment, ui, model):
-        super().__init__(name, environment)
+        super(Start, self).__init__(name, environment)
+        # super(Start, self).__init__(name, environment)
         self.ui = ui
         self.model = model
 
@@ -67,7 +68,7 @@ class Start(State):
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
-        super().__init__(name, environment)
+        super(Play, self).__init__(name, environment)
         self.ui = ui
         self.model = model
 
@@ -101,7 +102,7 @@ class Play(State):
 
 class End(State):
     def __init__(self, name, environment, ui, model):
-        super().__init__(name, environment)
+        super(End, self).__init__(name, environment)
         self.ui = ui
         self.model = model
 
@@ -119,6 +120,7 @@ class GoFishGame(FSM):
         gameModel = GoFish(environment)
         #create the states
         start = Start('Start', environment, ui, model=gameModel)
+        # super(GoFishGame, self).__init__(start)
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
@@ -133,7 +135,7 @@ class GoFishGame(FSM):
         self.run()
 
     def run(self):
-        super().run()
+        super(GoFishGame, self).run()
 
 #debugging
 players = []
