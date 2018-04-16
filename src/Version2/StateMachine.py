@@ -138,9 +138,9 @@ class GoFishGame(FSM):
 players = []
 players.append(GoFishPlayer(False, 1, name='Brad'))
 players.append(GoFishPlayer(False, 2, name='Jim'))
-players.append(GoFishPlayer(False, 3, name='Jerry'))
-players.append(GoFishPlayer(False, 4, name='Mary-Anne'))
+players.append(GoFishPlayer(True, 3, 'Computer 1'))
+players.append(GoFishPlayer(True, 4, 'Computer 2'))
 Deck = deck(True)
 env = Environment(players, Deck, players[0])
-inter = Interface(True, env)
+inter = Interface(False, env)
 GoFishGame(env, inter)

@@ -40,27 +40,27 @@ class GoFish(Game):
     def receivePlayer(self):
         if not self.environment.currentPlayer.ai:
             p = input()
-
-        if not self.validPlayerInput(p):
-            return None
-        else:
-            p = int(p)
-            i = 1
-            for player in self.environment.players:
-                if player != self.environment.currentPlayer and p == i:
-                    return player
-                elif player != self.environment.currentPlayer:
-                    i += 1
-
+            if not self.validPlayerInput(p):
+                return None
+            else:
+                p = int(p)
+                i = 1
+                for player in self.environment.players:
+                    if player != self.environment.currentPlayer and p == i:
+                        return player
+                    elif player != self.environment.currentPlayer:
+                        i += 1
+        return self.environment.currentPlayer.computerPickAPlayer(self.environment)
     def receiveCard(self):
         if not self.environment.currentPlayer.ai:
             card = input()
 
-        if not self.validCardInput(card):
-            return None
-        else:
-            card = int(card)
-            return self.environment.currentPlayer.hand[card - 1]
+            if not self.validCardInput(card):
+                return None
+            else:
+                card = int(card)
+                return self.environment.currentPlayer.hand[card - 1]
+        return self.environment.currentPlayer.computerPickACard()
 
     def executeTurn(self, card, player):
         receivedCards = 0

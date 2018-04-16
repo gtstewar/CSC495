@@ -1,4 +1,4 @@
-
+import random
 class Player(object):
     def __init__(self, isAI, number, name):
         self.ai = isAI
@@ -16,8 +16,15 @@ class GoFishPlayer(Player):
     def __init__(self, isAI, number, name):
         super().__init__(isAI, number, name)
 
+    def computerPickAPlayer(self, env):
+        player = None
+        while player is None or player == self:
+            player = env.players[random.randrange(0,len(env.players))]
+        return player
+
     def computerPickACard(self):
         rank = None
+        card = None
         maxCount = 0
         for i in range(1, 14):
             count = 0
@@ -25,11 +32,11 @@ class GoFishPlayer(Player):
                 if c.value.value == rank:
                     count += 1
                 if count > maxCount:
-                    rank = c.value
+                    card = c
                     maxCount = count
-        if rank is not None:
-            return rank
-        return self.hand[0].value
+        if card is not None:
+            return card
+        return self.hand[0]
 
     def sortHandByRank(self):
         self.hand.sort()
