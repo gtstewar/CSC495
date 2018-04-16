@@ -23,8 +23,6 @@ class BartokPlayer(Player):
             raise SyntaxError
         print "<" + self.name + ">" + " met this card: "
         print_formatted(show % info[0])
-        print "<" + self.name + ">" + " have these cards: "
-        print_formatted(hand_show % L[self.cards])
         toss, self.cards = self.func(L[self.cards], info[0])
         self.cards = [i for i in self.cards]
         if len(toss) != 0:
@@ -41,3 +39,9 @@ class BartokPlayer(Player):
 # a.get(CD(Spade, Eight))
 # a.get(CD(Diamond, King))
 # a.play(CD(Diamond, Four))
+# a = BartokPlayer("AI Dummy", bartok_rule_ai_random)
+# a.get(CD(Spade, Ten))
+# a.get(CD(Spade, Nine))
+# a.get(CD(Spade, Eight))
+# a.get(CD(Diamond, King))
+# a.play(CD(Heart, Four))

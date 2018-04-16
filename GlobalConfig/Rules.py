@@ -1,8 +1,11 @@
 from CardConfig import *
+from random import randint
 
 
 @TS(C / [Card] >> Card >> ([Card], [Card]))
 def bartok_rule_player(card_in_hand, card_face_up):
+    print "have these cards: "
+    print_formatted(hand_show % L[card_in_hand])
     temp = [i for i in card_in_hand
             if card_face_up.i0 == i.i0 or
             card_face_up.i1 == i.i1]
@@ -35,3 +38,17 @@ def bartok_rule_player(card_in_hand, card_face_up):
 #                          CD(Spade, Seven))
 # print_formatted(show % var[0][0])
 # print_formatted(hand_show % var[1])
+
+
+@TS(C / [Card] >> Card >> ([Card], [Card]))
+def bartok_rule_ai_random(card_in_hand, card_face_up):
+    temp = [i for i in card_in_hand
+            if card_face_up.i0 == i.i0 or
+            card_face_up.i1 == i.i1]
+    if len(temp) == 0:
+        print "Nothing to toss"
+        return L[[]], L[[i for i in card_in_hand]]
+    else:
+        respond = randint(0, len(temp) - 1)
+        card_in_hand = [i for i in card_in_hand if i != temp[respond]]
+        return L[[temp[respond]]], L[card_in_hand]
