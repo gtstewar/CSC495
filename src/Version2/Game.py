@@ -15,19 +15,16 @@ class Game():
 
     def switchTurns(self):
         for i in range(len(self.environment.players)):
-            if self.environment.players[i].__eq__(self.environment.currentPlayer):
-                if i == len(self.environment.players) - 1:
+            if self.environment.players[i] == self.environment.currentPlayer:
+                if i == (len(self.environment.players) - 1):
                     self.environment.currentPlayer = self.environment.players[0]
+                    break
                 else:
                     self.environment.currentPlayer = self.environment.players[i + 1]
-
+                    break
 class GoFish(Game):
 
-    def play(self):
-        print('here')
-
     def validCardInput(self, card):
-        print('Size of hand: ' + str(len(self.environment.currentPlayer.hand)) )
         if not RepresentsInt(card):
             return False
         card = int(card)
@@ -66,12 +63,12 @@ class GoFish(Game):
             return None
         else:
             card = int(card)
-            return self.environment.currentPlayer.hand[card + 1]
+            return self.environment.currentPlayer.hand[card - 1]
 
     def executeTurn(self, card, player):
         receivedCards = 0
         if player.checkForCardByRank(card.value):
-            cardsReceived = player.giveUpAllCardsByRank()
+            cardsReceived = player.giveUpAllCardsByRank(card.value)
             receivedCards = len(cardsReceived)
             for c in cardsReceived:
                 self.environment.currentPlayer.hand.append(c)

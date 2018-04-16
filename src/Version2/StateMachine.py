@@ -22,8 +22,6 @@ class State(object):
         self.transitions.append(transition)
         # transition.actions[0]()
 
-
-
     def step(self):
         for t in self.transitions:
             if t.guard is not None:
@@ -81,13 +79,13 @@ class Play(State):
         while card is None:
             self.ui.displayMessageToUser('Invalid Card')
             self.ui.promptUserForCard()
-            self.model.receiveCard()
+            card = self.model.receiveCard()
         self.ui.promptUserForPlayerToAsk()
         playerToAsk = self.model.receivePlayer()
         while playerToAsk is None:
             self.ui.displayMessageToUser('Invalid Player')
             self.ui.promptUserForPlayerToAsk()
-            self.model.receivePlayerToAsk()
+            playerToAsk =self.model.receivePlayer()
         receivedCards = self.model.executeTurn(card, playerToAsk)
         self.ui.receivedCardsMessage(receivedCards)
         self.model.switchTurns()
@@ -137,7 +135,6 @@ players.append(GoFishPlayer(False, 2, name='Jim'))
 players.append(GoFishPlayer(False, 3, name='Jerry'))
 players.append(GoFishPlayer(False, 4, name='Mary-Anne'))
 Deck = deck(True)
-print(str(len(Deck.facedown)))
 env = Environment(players, Deck, players[0])
 inter = Interface(True, env)
 GoFishGame(env, inter)

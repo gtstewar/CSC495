@@ -96,7 +96,7 @@ class Interface:
         i = 1
         total = 1
         for card in self.environment.currentPlayer.hand:
-            if i < 6 and total != len(self.environment.currentPlayer.hand):
+            if i < 6:
                 cardsToDisplay.append(self.getCardToDisplay(card))
                 i += 1
                 total += 1
@@ -104,7 +104,8 @@ class Interface:
                 self.printCards(i - 1, total - i + 1, cardsToDisplay)
                 cardsToDisplay = []
                 i = 1
-        print('Size of hand ' + str(len(self.environment.currentPlayer.hand )))
+        if len(cardsToDisplay) != 0:
+            self.printCards(len(cardsToDisplay), total - i + 1, cardsToDisplay)
 
     #prints the dashboard for a player given that they arent a computer
     def displayDash(self):
@@ -134,7 +135,7 @@ class Interface:
     def receivedCardsMessage(self, receivedCards):
         if not self.environment.currentPlayer.ai or self.showComputer:
             if receivedCards > 0:
-                print('You received {} cards').format(receivedCards)
+                print('You received ' + str(receivedCards) + ' cards')
             else:
                 print('GO FISH')
 
