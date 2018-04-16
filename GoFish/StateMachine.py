@@ -73,6 +73,9 @@ class Play(State):
         self.model = model
 
     def onEntry(self):
+        #if hand is empty, pick up card
+        if self.environment.currentPlayer.isEmptyHand():
+            self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
         #display pertinent player info
         self.ui.displayDash()
         # Block for a correct card selection
