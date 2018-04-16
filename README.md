@@ -17,10 +17,10 @@ run `python Bartok.py`.
 ### Go Fish
 
 run `python ./GoFish/GoFishRunner.py` wit command line arguments:
--c {number of computers}
--p {number of human players}
--n {number of games}
--s {Show computer moves} - 0 to not show the computers dash, 1 to show computers dash.
+⋅⋅*c {number of computers}
+⋅⋅*p {number of human players}
+⋅⋅*n {number of games}
+⋅⋅*s {Show computer moves} - 0 to not show the computers dash, 1 to show computers dash.
 
 -c and -p are required but -n and -s are not and have default values of 1 and 1 respectively
 
