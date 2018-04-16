@@ -27,10 +27,11 @@ class GoFish(Game):
         print('here')
 
     def validCardInput(self, card):
+        print('Size of hand: ' + str(len(self.environment.currentPlayer.hand)) )
         if not RepresentsInt(card):
             return False
         card = int(card)
-        if card < 0 or card > len(self.environment.currentPlayer.hand):
+        if card < 1 or card > len(self.environment.currentPlayer.hand):
             return False
         return True
 
@@ -38,7 +39,7 @@ class GoFish(Game):
         if not RepresentsInt(player):
             return False
         player = int(player)
-        if player < 0 or player > len(self.environment.players) - 1:
+        if player < 1 or player > len(self.environment.players):
             return False
         return True
 
@@ -50,7 +51,12 @@ class GoFish(Game):
             return None
         else:
             p = int(p)
-            return self.environment.players[p]
+            i = 1
+            for player in self.environment.players:
+                if player != self.environment.currentPlayer and p == i:
+                    return player
+                elif player != self.environment.currentPlayer:
+                    i += 1
 
     def receiveCard(self):
         if not self.environment.currentPlayer.ai:
@@ -60,7 +66,7 @@ class GoFish(Game):
             return None
         else:
             card = int(card)
-            return self.environment.currentPlayer.hand[card]
+            return self.environment.currentPlayer.hand[card + 1]
 
     def executeTurn(self, card, player):
         receivedCards = 0

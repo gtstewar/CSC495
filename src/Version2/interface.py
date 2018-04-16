@@ -99,10 +99,12 @@ class Interface:
             if i < 6 and total != len(self.environment.currentPlayer.hand):
                 cardsToDisplay.append(self.getCardToDisplay(card))
                 i += 1
+                total += 1
             else:
                 self.printCards(i - 1, total - i + 1, cardsToDisplay)
+                cardsToDisplay = []
                 i = 1
-            total += 1
+        print('Size of hand ' + str(len(self.environment.currentPlayer.hand )))
 
     #prints the dashboard for a player given that they arent a computer
     def displayDash(self):
