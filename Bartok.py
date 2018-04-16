@@ -1,96 +1,41 @@
-from UtilCards import *
-from random import shuffle, choice
+from GlobalConfig import *
 
 
-class Bartok:
-    def __init__(self, people_array):
-        if list(people_array).__len__() > 4:
-            raise Exception("More than 4 players")
-        self.deck = Deck(True)
-        self.player_list = []
-        self.player_list += list(map(lambda x: Player(x), people_array))
-        self.player_list += list(
-            map(lambda x: Player("An AI Player " + str(x), True),
-                list(range(4 - list(people_array).__len__()))))
-        shuffle(self.player_list)
+class BartokEnv(MCEnv):
+    def start_env(self):
+        for i in self.players:
+            if not isinstance(i, Player):
+                raise TypeError
         for _ in range(5):
-            for i in self.player_list:
-                i.receive_card(self.deck.draw_card_from_deck_top())
-        self.deck.face_up.append(self.deck.face_down.pop())
+            for j in self.players:
+                j.get(self.face_down.extract())
+        self.face_up.get(self.face_down.extract())
 
+
+class BartokMachine(GameFSM):
     def run(self):
+        self.env.start_env()
         while True:
-            for player in self.player_list:
-                print("+-----------------------------------+")
-                print("Card for Match is: " +
-                      str(self.deck.get_discard_pile_top()))
-                if player.identify_ai():
-                    if is_exist_match_card(
-                            self.deck.get_discard_pile_top(),
-                            player.card_in_hand):
-                        print(str(player) + " tosses one card: ")
-                        candidates = list(filter(
-                            lambda x: bartok_match(
-                                self.deck.get_discard_pile_top(), x),
-                            player.card_in_hand))
-                        target_card = choice(candidates)
-                        player.toss_card(target_card)
-                        print(target_card)
-                        self.deck.face_up.append(target_card)
-                    else:
-                        print(str(player) + " receives one card.")
-                        player.receive_card(
-                            self.deck.draw_card_from_deck_top(
-                                left_one=True))
-                    print("+-----------------------------------+\n")
-                else:
-                    player.show_card()
-                    if is_exist_match_card(
-                            self.deck.get_discard_pile_top(),
-                            player.card_in_hand):
-                        print("Please toss one card, at least one card match")
-                        target_card = \
-                            query_for_card(player.card_in_hand,
-                                           self.deck.get_discard_pile_top())
-                        player.toss_card(target_card)
-                        self.deck.face_up.append(target_card)
-                    else:
-                        print("Do not have any match, draw one card")
-                        player.receive_card(
-                            self.deck.draw_card_from_deck_top(
-                                left_one=True))
-                    player.show_card()
-                    print("+-----------------------------------+\n")
-                if player.is_win():
-                    print(str(player) + " wins.")
-                    return
+            curr_p = self.env.players[self.env.current_player]
+            print "\n"
+            for i in self.env.players:
+                print "<" + i.name + ">: " + str(i.contain_num())
+            print "\n"
+            res = curr_p.play(self.env.face_up.cards)
+            if len(res) == 0:
+                curr_p.get(self.env.face_down.extract())
+            else:
+                self.env.face_up.get(res[0])
+            if self.env.check_is_win(curr_p):
+                print "<" + curr_p.name + "> " + " wins"
+                break
+            else:
+                self.env.next_player()
+                screen_refresh.clear()
 
 
-def query_for_card(list_of_card, matcher):
-    print("Give me a card: ")
-    while True:
-        while True:
-            try:
-                card_val = int(input())
-                target_card = list_of_card[card_val]
-            except Exception:
-                print("INPUT FORMAT ERROR, RE-INPUT")
-                continue
-            break
-        if bartok_match(list_of_card[card_val], matcher):
-            return target_card
-        else:
-            print("ERROR IN CHOOSING THE CARD, DO NOT MATCH, RE-CHOOSE")
-            continue
+a = BartokMachine(BartokEnv([BartokPlayer("tired", bartok_rule_player),
+                            BartokPlayer("exhausted", bartok_rule_ai_random)],
+                            lambda _x: _x.empty()))
 
-
-def bartok_match(c1, c2):
-    if c1.suit == c2.suit:
-        return True
-    elif c1.value == c2.value:
-        return True
-    return False
-
-
-def is_exist_match_card(matcher, list_of_cards):
-    return any(list(map(lambda x: bartok_match(matcher, x), list_of_cards)))
+a.run()
