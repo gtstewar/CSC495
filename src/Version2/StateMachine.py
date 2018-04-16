@@ -25,7 +25,7 @@ class State(object):
     def step(self):
         for t in self.transitions:
             if t.guard is not None:
-                if (t.guard is True):
+                if t.guard == True:
                     return t.end
 
     def onEntry(self):
@@ -50,36 +50,38 @@ class FSM(object):
         while True:
             self.currentstate.onEntry()
             self.currentstate = self.currentstate.step()
-            if self.currentstate.name == 'End' :
+            if isinstance(self.currentstate, End) :
+                self.currentstate.onEntry()
                 break
+# GOFISH States
 
 class Start(State):
     def __init__(self, name, environment, ui, model):
-        self.environment = environment
-        self.name = name
-        self.transitions = []
+        super().__init__(name, environment)
         self.ui = ui
         self.model = model
 
     def onEntry(self):
-       self.model.setUp()
+        #deal cards
+        self.model.setUp()
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
-        self.environment = environment
-        self.name = name
-        self.transitions = []
+        super().__init__(name, environment)
         self.ui = ui
         self.model = model
 
     def onEntry(self):
+        #display pertinent player info
         self.ui.displayDash()
+        # Block for a correct card selection
         self.ui.promptUserForCard()
         card = self.model.receiveCard()
         while card is None:
             self.ui.displayMessageToUser('Invalid Card')
             self.ui.promptUserForCard()
             card = self.model.receiveCard()
+        #Block for a correct Player selection
         self.ui.promptUserForPlayerToAsk()
         playerToAsk = self.model.receivePlayer()
         while playerToAsk is None:
@@ -88,18 +90,23 @@ class Play(State):
             playerToAsk =self.model.receivePlayer()
         receivedCards = self.model.executeTurn(card, playerToAsk)
         self.ui.receivedCardsMessage(receivedCards)
+        self.environment.currentPlayer.checkForBook()
         self.model.switchTurns()
 
+    def step(self):
+        if len(self.environment.deck.facedown) == 0:
+            return self.transitions[0].end
+        else:
+            return self
 
 class End(State):
     def __init__(self, name, environment, ui, model):
-        self.environment = environment
-        self.name = name
-        self.transitions = []
+        super().__init__(name, environment)
         self.ui = ui
         self.model = model
 
     def onEntry(self):
+        #print winners and exit
         self.model.findWinners()
         self.ui.printWinners()
         return True
@@ -115,9 +122,8 @@ class GoFishGame(FSM):
         end = End('End', environment, ui, model=gameModel)
         #add transitions
         start.addtransition(Transition(True, play))
-        play.addtransition(Transition(len(environment.deck.facedown) != 0, play))
-        play.addtransition(Transition(len(environment.deck.facedown) == 0, end))
-
+        play.addtransition(Transition(lambda: environment.deck.isEmpty(), end))
+        play.addtransition(Transition(True, play))
         #add states to machine
         self.states.append(start)
         self.states.append(play)
