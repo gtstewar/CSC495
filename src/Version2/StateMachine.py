@@ -78,6 +78,7 @@ class GoFishGame(FSM):
     def run(self):
         super()
 
+#debugging
 players = []
 players.append(Player(False, 1, name='Brad'))
 players.append(Player(False, 2, name='Jim'))
