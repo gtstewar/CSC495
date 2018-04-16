@@ -113,7 +113,30 @@ class Interface:
             self.displayCurrentPlayersInfo()
 
     def promptUserForCard(self):
-        print('Card to Play> ', end='')
+        if not self.environment.currentPlayer.ai:
+            print('Card to Play > ', end='')
+
+    def promptUserForPlayerToAsk(self):
+        if not self.environment.currentPlayer.ai:
+            i = 1
+            for player in self.environment.players:
+                if player is not self.environment.currentPlayer:
+                    print(str(i) + '. ' + player.name + '  ', end='')
+                    i += 1
+
+            print('Who To Ask? > ', end='')
 
     def displayMessageToUser(self, message):
         print(message)
+
+    def receivedCardsMessage(self, receivedCards):
+        if not self.environment.currentPlayer.ai or self.showComputer:
+            if receivedCards > 0:
+                print('You received {} cards').format(receivedCards)
+            else:
+                print('GO FISH')
+
+    def printWinners(self):
+        for player in self.environment.winners:
+            print(player.name + ' ', end='')
+        print('won the game!')

@@ -4,32 +4,30 @@ from src.Version2.player import *
 from src.Version2.interface import *
 from src.Version2.Deck import *
 
-class Transition():
+class Transition(object):
     def __init__(self, guard, end):
         self.guard = guard
         self.end = end
-        self.actions = []
 
-    def addactions(self, f):
-        self.actions.append(f)
-
-class State():
-    def __init__(self, name, environment, onEntry=None):
-        if onEntry is not None: onEntry()
+class State(object):
+    def __init__(self, name, environment):
         self.environment = environment
         self.name = name
         self.transitions = []
+
+    def onEntry(self):
+        pass
 
     def addtransition(self, transition):
         self.transitions.append(transition)
         # transition.actions[0]()
 
+
+
     def step(self):
         for t in self.transitions:
             if t.guard is not None:
                 if (t.guard is True):
-                    for action in t.actions:
-                        action(self.environment)
                     return t.end
 
     def onEntry(self):
@@ -40,12 +38,7 @@ class State():
 
 class Start(State): pass
 
-
-class End(State):
-    def quit(self):
-        return True
-
-class FSM():
+class FSM(object):
     def __init__(self, start):
         self.states = []
         self.start = start
@@ -57,34 +50,94 @@ class FSM():
 
     def run(self):
         while True:
+            self.currentstate.onEntry()
             self.currentstate = self.currentstate.step()
             if self.currentstate.name == 'End' :
                 break
 
+class Start(State):
+    def __init__(self, name, environment, ui, model):
+        self.environment = environment
+        self.name = name
+        self.transitions = []
+        self.ui = ui
+        self.model = model
+
+    def onEntry(self):
+       self.model.setUp()
+
+class Play(State):
+    def __init__(self, name, environment, ui, model):
+        self.environment = environment
+        self.name = name
+        self.transitions = []
+        self.ui = ui
+        self.model = model
+
+    def onEntry(self):
+        self.ui.displayDash()
+        self.ui.promptUserForCard()
+        card = self.model.receiveCard()
+        while card is None:
+            self.ui.displayMessageToUser('Invalid Card')
+            self.ui.promptUserForCard()
+            self.model.receiveCard()
+        self.ui.promptUserForPlayerToAsk()
+        playerToAsk = self.model.receivePlayer()
+        while playerToAsk is None:
+            self.ui.displayMessageToUser('Invalid Player')
+            self.ui.promptUserForPlayerToAsk()
+            self.model.receivePlayerToAsk()
+        receivedCards = self.model.executeTurn(card, playerToAsk)
+        self.ui.receivedCardsMessage(receivedCards)
+        self.model.switchTurns()
+
+
+class End(State):
+    def __init__(self, name, environment, ui, model):
+        self.environment = environment
+        self.name = name
+        self.transitions = []
+        self.ui = ui
+        self.model = model
+
+    def onEntry(self):
+        self.model.findWinners()
+        self.ui.printWinners()
+        return True
+
 class GoFishGame(FSM):
     def __init__(self, environment, ui):
         self.states = []
+        #initate the model for the game
         gameModel = GoFish(environment)
-        self.addState(State('Start', environment, ui.displayMessageToUser('Welcome to GoFish')))
-        self.addState(State('Play', environment, gameModel.play()))
-        self.addState(State('End', environment, gameModel.findWinners(environment, ui)))
-        self.states[0].addtransition(Transition(True, self.states[1]))
-        endTrans = Transition(len(environment.deck.facedown) == 0, self.states[2])
-        endTrans.addactions(self.states[2].quit())
-        self.states[1].addtransition(endTrans)
-        self.currentstate = self.states[0]
+        #create the states
+        start = Start('Start', environment, ui, model=gameModel)
+        play = Play('Play', environment, ui, model=gameModel)
+        end = End('End', environment, ui, model=gameModel)
+        #add transitions
+        start.addtransition(Transition(True, play))
+        play.addtransition(Transition(len(environment.deck.facedown) != 0, play))
+        play.addtransition(Transition(len(environment.deck.facedown) == 0, end))
+
+        #add states to machine
+        self.states.append(start)
+        self.states.append(play)
+        self.states.append(end)
+        self.currentstate = start
         self.run()
 
     def run(self):
-        super()
+        super().run()
 
 #debugging
 players = []
-players.append(Player(False, 1, name='Brad'))
-players.append(Player(False, 2, name='Jim'))
-players.append(Player(False, 3, name='Jerry'))
-players.append(Player(False, 4, name='Mary-Anne'))
+players.append(GoFishPlayer(False, 1, name='Brad'))
+players.append(GoFishPlayer(False, 2, name='Jim'))
+players.append(GoFishPlayer(False, 3, name='Jerry'))
+players.append(GoFishPlayer(False, 4, name='Mary-Anne'))
 Deck = deck(True)
+print(str(len(Deck.facedown)))
 env = Environment(players, Deck, players[0])
 inter = Interface(True, env)
 GoFishGame(env, inter)
