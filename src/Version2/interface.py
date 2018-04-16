@@ -24,6 +24,7 @@ class Interface:
         return cardToDisplay
 
     def clear_screen(self):
+        #works for both windows and unix based Terminal windows
         os.system('cls||clear')
 
     #top half of dash(public information about other players hands)
@@ -107,9 +108,12 @@ class Interface:
         if len(cardsToDisplay) != 0:
             self.printCards(len(cardsToDisplay), total - i + 1, cardsToDisplay)
 
+        print('Number of Books:  ' + str(self.environment.currentPlayer.num_books) + '\n')
+
     #prints the dashboard for a player given that they arent a computer
     def displayDash(self):
         if not self.environment.currentPlayer.ai or self.showComputer:
+            #clear the screen
             self.clear_screen()
             print()
             self.displayOtherPlayersInfo()

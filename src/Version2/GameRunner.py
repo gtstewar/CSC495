@@ -1,4 +1,5 @@
 import argparse
-from src.GoFish.Game import *
+from StateMachine.py import *
+
 
 

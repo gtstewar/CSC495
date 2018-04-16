@@ -53,7 +53,7 @@ class FSM(object):
             if isinstance(self.currentstate, End) :
                 self.currentstate.onEntry()
                 break
-# GOFISH States
+# GOFISH States -------------------------------------------------
 
 class Start(State):
     def __init__(self, name, environment, ui, model):
@@ -111,6 +111,7 @@ class End(State):
         self.ui.printWinners()
         return True
 
+#GOFIsh Machine ----------------------------------------------------------
 class GoFishGame(FSM):
     def __init__(self, environment, ui):
         self.states = []
