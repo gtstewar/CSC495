@@ -46,8 +46,6 @@ class Pile(object):
             self.cards = [_i for _i in self.cards] + other
         elif isinstance(other, HaskellList):
             self.cards = [_i for _i in self.cards] + [_i for _i in other]
-        elif isinstance(other, Card):
-            self.cards.append(other)
         else:
             raise SyntaxError
 
@@ -55,6 +53,9 @@ class Pile(object):
         temp = [c for c in self.cards]
         shuffle(temp)
         self.cards = temp
+
+    def get(self, item):
+        self.cards.append(item)
 
 
 class Deck(Pile):
