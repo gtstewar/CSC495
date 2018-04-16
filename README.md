@@ -16,7 +16,7 @@ run `python Bartok.py`.
 
 ### Go Fish
 
-run `python ./GoFish/GoFishRunner.py` wit command line arguments:
+run `python ./GoFish/GoFishRunner.py` with command line arguments:
 * -c {number of computers}
 * -p {number of human players}
 * -n {number of games}
