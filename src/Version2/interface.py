@@ -1,7 +1,4 @@
-from src.Version2.Deck import *
 import os
-from src.Version2.Environment import *
-from src.Version2.player import *
 
 class Interface:
     displayValuesRank = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
@@ -80,7 +77,10 @@ class Interface:
         for i in range(5):
             for k in range(rowLength):
                 if i == 0:
-                    print(str(startNum) + '. ', end='')
+                    if startNum >= 10:
+                        print(str(startNum) + '.', end='')
+                    else:
+                        print(str(startNum) + '. ', end='')
                     startNum += 1
                 else:
                     print('   ', end='')

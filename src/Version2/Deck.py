@@ -1,7 +1,6 @@
 import random
 from enum import Enum
 
-
 class Suit(Enum):
     """
     Suit start from 0 to 3

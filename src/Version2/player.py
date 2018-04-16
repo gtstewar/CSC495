@@ -1,4 +1,3 @@
-import sys
 
 class Player(object):
     def __init__(self, isAI, number, name):

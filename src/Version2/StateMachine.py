@@ -1,8 +1,8 @@
-from src.Version2.Game import *
-from src.Version2.Environment import *
-from src.Version2.player import *
-from src.Version2.interface import *
-from src.Version2.Deck import *
+from Game import *
+from interface import *
+from Deck import *
+from player import *
+from Environment import *
 
 class Transition(object):
     def __init__(self, guard, end):
