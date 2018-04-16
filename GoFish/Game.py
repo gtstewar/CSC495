@@ -34,7 +34,7 @@ class GoFish(Game):
         if not RepresentsInt(player):
             return False
         player = int(player)
-        if player < 1 or player > len(self.environment.players):
+        if player < 1 or player >= len(self.environment.players):
             return False
         return True
 
