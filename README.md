@@ -24,7 +24,7 @@ run `python ./GoFish/GoFishRunner.py` wit command line arguments:
 
 -c and -p are required but -n and -s are not and have default values of 1 and 1 respectively
 
-Example: python ./GoFish/GoFishRunner.py -c 2 -p 2 -n 2 -s 0 
+Example: **python ./GoFish/GoFishRunner.py -c 2 -p 2 -n 2 -s 0**
 
 # Bartok Rules
 ...as described at https://en.wikipedia.org/wiki/Bartok_(card_game)
