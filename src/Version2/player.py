@@ -2,10 +2,8 @@ import random
 class Player(object):
     def __init__(self, isAI, number, name):
         self.ai = isAI
-        if not self.ai:
-            self.name = name
-        else:
-            self.name = 'Computer ' + str(number)
+        self.name = name
+        self.number = number
         self.hand = []
         self.num_books = 0
 
