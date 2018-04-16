@@ -84,3 +84,9 @@ def hand_show(cards):
             res += j[i]
         res += "\n"
     return res
+
+
+# print_formatted(hand_show % L[CD(Spade, Ace),
+#                               CD(Diamond, King),
+#                               CD(Club, Queen),
+#                               CD(Heart, Jack)])
