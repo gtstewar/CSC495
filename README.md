@@ -16,7 +16,15 @@ run `python Bartok.py`.
 
 ### Go Fish
 
-run `python ./GoFish/StateMachine.py`.
+run `python ./GoFish/GoFishRunner.py` wit command line arguments:
+-c {number of computers}
+-p {number of human players}
+-n {number of games}
+-s {Show computer moves} - 0 to not show the computers dash, 1 to show computers dash.
+
+-c and -p are required but -n and -s are not and have default values of 1 and 1 respectively
+
+Example: python ./GoFish/GoFishRunner.py -c 2 -p 2 -n 2 -s 0 
 
 # Bartok Rules
 ...as described at https://en.wikipedia.org/wiki/Bartok_(card_game)
