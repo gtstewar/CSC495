@@ -1,4 +1,4 @@
-from UnitComponentTests.TestCases import *
+from UnitTests.TestCases import *
 import unittest
 
 
