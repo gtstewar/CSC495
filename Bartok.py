@@ -34,8 +34,8 @@ class BartokMachine(GameFSM):
                 screen_refresh.clear()
 
 
-# a = BartokMachine(BartokEnv([BartokPlayer("tired", bartok_rule_player),
-#                             BartokPlayer("exhausted", bartok_rule_ai_random)],
-#                             lambda _x: _x.empty()))
+a = BartokMachine(BartokEnv([BartokPlayer("tired", bartok_rule_player),
+                            BartokPlayer("exhausted", bartok_rule_ai_random)],
+                            lambda _x: _x.empty()))
 
-# a.run()
+a.run()

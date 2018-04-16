@@ -10,11 +10,13 @@ This project allows up to four users to play Bartok or Go Fish.
 # How to Run
 First, clone this repository. To play, run GameRunner.py with the applicable arguments explained below.
 
-If users desire to play Go Fish, GameRunner.py should be run with the "-g GoFish" argument.</br>
-If users desire to play Bartok, GameRunner.py should be run with the "-g Bartok" argument.</br>
-Use the -p argument to indicate how many people are playing the game. For example, if there are 3 players, add "-p 3" as an argument.</br>
-If players want to add an AI player to the game, similar to adding human players, use the -c argument to indicate how many AI players to add to the game.</br>
-For example, if Go Fish is to be played with 2 human players and 2 AI players, the program should be run as "python GameRunner.py -g GoFish -p 2 -c 2".
+### Bartok
+
+run `python Bartok.py`.
+
+### Go Fish
+
+run `python ./GoFish/StateMachine.py`.
 
 # Bartok Rules
 ...as described at https://en.wikipedia.org/wiki/Bartok_(card_game)
