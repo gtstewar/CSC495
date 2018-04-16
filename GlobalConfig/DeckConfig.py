@@ -65,4 +65,7 @@ class Deck(Pile):
 
 class FaceUp(Pile):
     def __init__(self):
-        super(FaceUp, self).__init__([])
+        super(FaceUp, self).__init__(L[[]])
+
+    def get(self, item):
+        self.cards = item ^ self.cards
