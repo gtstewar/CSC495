@@ -137,13 +137,3 @@ class GoFishGame(FSM):
     def run(self):
         super(GoFishGame, self).run()
 
-#debugging
-players = []
-players.append(GoFishPlayer(False, 1, name='Brad'))
-players.append(GoFishPlayer(False, 2, name='Jim'))
-players.append(GoFishPlayer(True, 3, 'Computer 1'))
-players.append(GoFishPlayer(True, 4, 'Computer 2'))
-Deck = deck(True)
-env = Environment(players, Deck, players[0])
-inter = Interface(False, env)
-GoFishGame(env, inter)
