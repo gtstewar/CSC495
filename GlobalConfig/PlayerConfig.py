@@ -33,6 +33,7 @@ class BartokPlayer(Player):
         return toss
 
 
+# print type_of(L[[CD(Diamond, Four)]])
 # a = BartokPlayer("Anthony", bartok_rule_player)
 # a.get(CD(Spade, Ten))
 # a.get(CD(Spade, Nine))
