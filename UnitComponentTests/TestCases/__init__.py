@@ -1,0 +1,1 @@
+from CardConfigTests import *
