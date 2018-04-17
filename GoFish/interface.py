@@ -85,6 +85,7 @@ class Interface:
 
     # prints a row of cards
     def printCards(self, rowLength, startNum, cardsToPrint):
+
         for i in range(5):
             for k in range(rowLength):
                 if i == 0:
@@ -107,14 +108,14 @@ class Interface:
         i = 1
         total = 1
         for card in self.environment.currentPlayer.hand:
-            if i < 6:
+            # if i < 6:
                 cardsToDisplay.append(self.getCardToDisplay(card))
                 i += 1
                 total += 1
-            else:
-                self.printCards(i - 1, total - i + 1, cardsToDisplay)
-                cardsToDisplay = []
-                i = 1
+            # else:
+            #     self.printCards(i - 1, total - i + 1, cardsToDisplay)
+            #     cardsToDisplay = []
+            #     i = 1
         if len(cardsToDisplay) != 0:
             self.printCards(len(cardsToDisplay), total - i + 1, cardsToDisplay)
 
