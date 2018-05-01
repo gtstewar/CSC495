@@ -56,7 +56,7 @@ class deck:
         self.faceup.append(self.facedown.pop())
 
     def getTopCardofDiscardPile(self):
-        return self.faceup[len(self.faceup - 1)]
+        return self.faceup[len(self.faceup) - 1]
 
     def placeCardOnDiscardPile(self, card):
         self.faceup.append(card)

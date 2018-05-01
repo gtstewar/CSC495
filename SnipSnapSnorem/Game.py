@@ -82,4 +82,9 @@ class SnipSnapSnorem(Game):
             for i in range(numCards):
                 player.hand.append(self.environment.deck.drawCardFromTopOfDeck())
 
+    def firstCardOnDiscardPile(self, card):
+        self.environment.deck.placeCardOnDiscardPile(card)
+
+    def getFirstCardOnDiscardPile(self):
+        return self.environment.deck.getTopCardofDiscardPile()
 

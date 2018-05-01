@@ -64,10 +64,12 @@ class Start(State):
         self.model = model
 
     def onEntry(self):
-        print("Welcome to Snip Snap Snorem! We will begin the game with this card:")
+        print("Welcome to Snip Snap Snorem!")
         #deal cards
         self.model.setUp()
-        self.ui.displayStartingCard(self.environment.currentPlayer.getCardToStart())
+        # place one of first player's cards on top of discard pile
+        self.model.firstCardOnDiscardPile(self.environment.currentPlayer.getCardToStart())
+        #self.ui.displayStartingCard(self.environment.currentPlayer.getCardToStart())
 
 
 class Play(State):
@@ -78,6 +80,11 @@ class Play(State):
 
     def onEntry(self):
         #display pertinent player info
+        print()
+        print("Do you have any cards of the same rank as...")
+        cardToDisplay = []
+        cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
+        self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
         # Block for a correct card selection
         self.ui.promptUserForCard()

@@ -108,8 +108,6 @@ class Interface:
 
     # prints the hand plus other relevant information of player (bottom half of the dash)
     def displayCurrentPlayersInfo(self):
-        print("Do you have any cards of the same rank as...")
-        print("current top of the deck should be printed here")
         print('Current Hand:')
         cardsToDisplay = []
         i = 1
