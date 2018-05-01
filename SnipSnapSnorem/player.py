@@ -50,6 +50,21 @@ class SnipSnapSnoremPlayer(Player):
                 return True
         return False
 
+    def getCardToStart(self):
+        startingCard = self.hand[0]
+        self.hand.remove(startingCard)
+        return startingCard
+
+    def giveUpCardByRank(self, cardRank):
+        ret = []
+        # adds cards to be given up
+        for c in self.hand:
+            if c.value == cardRank:
+                ret.append(c)
+        # updates self.hand to have cards not in cardThatMatch
+        self.hand = [c for c in self.hand if c not in ret]
+        return ret
+
     def isEmptyHand(self):
         if len(self.hand) == 0:
             return True

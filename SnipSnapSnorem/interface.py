@@ -101,21 +101,23 @@ class Interface:
             print('')
         print('')
 
+    def displayStartingCard(self, card):
+        cardToDisplay = []
+        cardToDisplay.append(self.getCardToDisplay(card))
+        self.printCards(1, 1, cardToDisplay)
+
     # prints the hand plus other relevant information of player (bottom half of the dash)
     def displayCurrentPlayersInfo(self):
+        print("Do you have any cards of the same rank as...")
+        print("current top of the deck should be printed here")
         print('Current Hand:')
         cardsToDisplay = []
         i = 1
         total = 1
         for card in self.environment.currentPlayer.hand:
-            # if i < 6:
-                cardsToDisplay.append(self.getCardToDisplay(card))
-                i += 1
-                total += 1
-            # else:
-            #     self.printCards(i - 1, total - i + 1, cardsToDisplay)
-            #     cardsToDisplay = []
-            #     i = 1
+            cardsToDisplay.append(self.getCardToDisplay(card))
+            i += 1
+            total += 1
         if len(cardsToDisplay) != 0:
             self.printCards(len(cardsToDisplay), total - i + 1, cardsToDisplay)
 

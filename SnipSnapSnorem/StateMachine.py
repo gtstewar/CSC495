@@ -3,6 +3,7 @@ from interface import *
 from Deck import *
 from player import *
 from Environment import *
+import sys
 
 class Transition(object):
     def __init__(self, guard, end):
@@ -63,8 +64,11 @@ class Start(State):
         self.model = model
 
     def onEntry(self):
+        print("Welcome to Snip Snap Snorem! We will begin the game with this card:")
         #deal cards
         self.model.setUp()
+        self.ui.displayStartingCard(self.environment.currentPlayer.getCardToStart())
+
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
@@ -73,9 +77,6 @@ class Play(State):
         self.model = model
 
     def onEntry(self):
-        #if hand is empty, pick up card
-        if self.environment.currentPlayer.isEmptyHand():
-            self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
         #display pertinent player info
         self.ui.displayDash()
         # Block for a correct card selection
@@ -85,16 +86,11 @@ class Play(State):
             self.ui.displayMessageToUser('Invalid Card')
             self.ui.promptUserForCard()
             card = self.model.receiveCard()
-        #Block for a correct Player selection
-        self.ui.promptUserForPlayerToAsk()
-        playerToAsk = self.model.receivePlayer()
-        while playerToAsk is None:
-            self.ui.displayMessageToUser('Invalid Player')
-            self.ui.promptUserForPlayerToAsk()
-            playerToAsk =self.model.receivePlayer()
-        receivedCards = self.model.executeTurn(card, playerToAsk)
-        self.ui.receivedCardsMessage(receivedCards)
-        self.environment.currentPlayer.checkForBook()
+        cardToPlay = self.model.executeTurn(card, self.environment.currentPlayer)
+        if self.environment.currentPlayer.isEmptyHand():
+            #temp code
+            print("You won!")
+            sys.exit()
         self.model.switchTurns()
 
     def step(self):

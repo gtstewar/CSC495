@@ -52,6 +52,7 @@ class SnipSnapSnorem(Game):
                     elif player != self.environment.currentPlayer:
                         i += 1
         return self.environment.currentPlayer.computerPickAPlayer(self.environment)
+
     def receiveCard(self):
         if not self.environment.currentPlayer.ai:
             card = input()
@@ -66,17 +67,19 @@ class SnipSnapSnorem(Game):
     def executeTurn(self, card, player):
         receivedCards = 0
         if player.checkForCardByRank(card.value):
-            cardsReceived = player.giveUpAllCardsByRank(card.value)
-            receivedCards = len(cardsReceived)
+            cardsReceived = player.giveUpCardByRank(card.value)
             for c in cardsReceived:
-                self.environment.currentPlayer.hand.append(c)
+                self.environment.deck.placeCardOnDiscardPile(c)
         else:
             self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
         self.environment.currentPlayer.sortHandByRank()
         return receivedCards
 
     def setUp(self):
+        numPlayers = len(self.environment.players)
+        numCards = int(52 / numPlayers)
         for player in self.environment.players:
-            for i in range(5):
+            for i in range(numCards):
                 player.hand.append(self.environment.deck.drawCardFromTopOfDeck())
+
 
