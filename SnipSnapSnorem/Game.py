@@ -92,3 +92,8 @@ class SnipSnapSnorem(Game):
     def getFirstCardOnDiscardPile(self):
         return self.environment.deck.getTopCardofDiscardPile()
 
+    def findWinners(self):
+        for player in self.environment.players:
+            if player.isEmptyHand():
+                self.environment.winners.append(player)
+
