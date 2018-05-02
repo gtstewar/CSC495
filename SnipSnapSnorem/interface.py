@@ -137,5 +137,4 @@ class Interface:
     def printWinners(self):
         for player in self.environment.winners:
             print(player.name + ' ', end='')
-        print('won the game with ' + str(
-            self.environment.winners[0].num_books) + ' Books!')
+        print('won the game!')

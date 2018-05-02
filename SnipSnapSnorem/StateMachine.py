@@ -5,6 +5,8 @@ from player import *
 from Environment import *
 import sys
 
+rankCount = 0
+
 class Transition(object):
     def __init__(self, guard, end):
         self.guard = guard
@@ -69,6 +71,8 @@ class Start(State):
         self.model.setUp()
         # place one of first player's cards on top of discard pile
         self.model.firstCardOnDiscardPile(self.environment.currentPlayer.getCardToStart())
+        global rankCount
+        rankCount += 1
         #self.ui.displayStartingCard(self.environment.currentPlayer.getCardToStart())
 
 
@@ -100,7 +104,18 @@ class Play(State):
         if card == -1: #current player has nothing to play
             self.model.switchTurns()
         print("discard pile before execute turn " + str(self.environment.deck.faceup))
-        self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
+        received = self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
+        if received != -1 and received != 0:
+            global rankCount
+            rankCount += 1
+            if rankCount == 1:
+                print("SNIP")
+            elif rankCount == 2:
+                print("SNAP")
+            elif(rankCount == 3):
+                print("SNOREM")
+                rankCount = 0 #reset count
+                # TODO current player starts next round by placing card of their choice
         print("discard pile after executeTurn:" + str(self.environment.deck.faceup))
         self.model.switchTurns()
 
@@ -118,7 +133,7 @@ class End(State):
 
     def onEntry(self):
         #print winners and exit
-        #self.model.findWinners()
+        self.model.findWinners()
         self.ui.printWinners()
         return True
 
