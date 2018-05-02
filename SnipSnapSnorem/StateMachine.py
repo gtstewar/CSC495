@@ -81,8 +81,11 @@ class Play(State):
     def onEntry(self):
         #display pertinent player info
         print()
-        print("Do you have any cards of the same rank as...")
+        print("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
         cardToDisplay = []
+        topCard = self.model.getFirstCardOnDiscardPile()
+        print("State machine card: " + str(self.model.getFirstCardOnDiscardPile()))
+        print("state machine card value: " + str(self.model.getFirstCardOnDiscardPile().value))
         cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
         self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
@@ -92,16 +95,17 @@ class Play(State):
         while card is None:
             self.ui.displayMessageToUser('Invalid Card')
             self.ui.promptUserForCard()
+            # reads user input for card
             card = self.model.receiveCard()
-        cardToPlay = self.model.executeTurn(card, self.environment.currentPlayer)
-        if self.environment.currentPlayer.isEmptyHand():
-            #temp code
-            print("You won!")
-            sys.exit()
+        if card == -1: #current player has nothing to play
+            self.model.switchTurns()
+        print("discard pile before execute turn " + str(self.environment.deck.faceup))
+        self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
+        print("discard pile after executeTurn:" + str(self.environment.deck.faceup))
         self.model.switchTurns()
 
     def step(self):
-        if len(self.environment.deck.facedown) == 0:
+        if self.environment.currentPlayer.isEmptyHand():
             return self.transitions[0].end
         else:
             return self
@@ -114,7 +118,7 @@ class End(State):
 
     def onEntry(self):
         #print winners and exit
-        self.model.findWinners()
+        #self.model.findWinners()
         self.ui.printWinners()
         return True
 

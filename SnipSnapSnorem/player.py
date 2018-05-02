@@ -33,6 +33,7 @@ class SnipSnapSnoremPlayer(Player):
         return self.hand[0]
 
     def sortHandByRank(self):
+        print("sorting hand")
         self.hand.sort()
 
     def checkForCard(self, card):

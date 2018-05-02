@@ -65,13 +65,17 @@ class SnipSnapSnorem(Game):
         return self.environment.currentPlayer.computerPickACard()
 
     def executeTurn(self, card, player):
+        # if the card exists in hand, give up the card and add to top of discard pile
         receivedCards = 0
         if player.checkForCardByRank(card.value):
-            cardsReceived = player.giveUpCardByRank(card.value)
-            for c in cardsReceived:
-                self.environment.deck.placeCardOnDiscardPile(c)
+            # gives up 1 card with same rank as top of discard pile
+            received = player.giveUpCardByRank(card.value)
+            # and places it on top of the discard pile
+            self.environment.deck.placeCardOnDiscardPile(received)
+            print("You have a match! Placing your card on top of the pile.")
         else:
-            self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
+            print("You don't have any matches for this turn! :(")
+            receivedCards = -1
         self.environment.currentPlayer.sortHandByRank()
         return receivedCards
 
@@ -86,5 +90,6 @@ class SnipSnapSnorem(Game):
         self.environment.deck.placeCardOnDiscardPile(card)
 
     def getFirstCardOnDiscardPile(self):
+        print("returned from getFirstCardOnDiscardPile: " + str(self.environment.deck.getTopCardofDiscardPile()))
         return self.environment.deck.getTopCardofDiscardPile()
 
