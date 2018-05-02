@@ -70,6 +70,7 @@ class SnipSnapSnorem(Game):
         if player.checkForCardByRank(card.value):
             # gives up 1 card with same rank as top of discard pile
             received = player.giveUpCardByRank(card.value)
+            print(type(received))
             # and places it on top of the discard pile
             self.environment.deck.placeCardOnDiscardPile(received)
             print("You have a match! Placing your card on top of the pile.")

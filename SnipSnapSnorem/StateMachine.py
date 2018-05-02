@@ -27,8 +27,8 @@ class State(object):
 
     def step(self):
         for t in self.transitions:
-            if t.guard is not None:
-                if t.guard == True:
+            if t.guard() is not None:
+                if t.guard() == True:
                     return t.end
 
     def onEntry(self):
@@ -66,7 +66,7 @@ class Start(State):
         self.model = model
 
     def onEntry(self):
-        print("Welcome to Snip Snap Snorem!")
+        self.ui.displayMessageToUser("Welcome to Snip Snap Snorem!")
         #deal cards
         self.model.setUp()
         # place one of first player's cards on top of discard pile
@@ -84,12 +84,10 @@ class Play(State):
 
     def onEntry(self):
         #display pertinent player info
-        print()
-        print("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
+        self.ui.displayMessageToUser("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
         cardToDisplay = []
         topCard = self.model.getFirstCardOnDiscardPile()
-        print("State machine card: " + str(self.model.getFirstCardOnDiscardPile()))
-        print("state machine card value: " + str(self.model.getFirstCardOnDiscardPile().value))
+        print("State machine card: " + str(self.model.getFirstCardOnDiscardPile().suit.name + ' ' + self.model.getFirstCardOnDiscardPile().value.name))
         cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
         self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
@@ -103,7 +101,7 @@ class Play(State):
             card = self.model.receiveCard()
         if card == -1: #current player has nothing to play
             self.model.switchTurns()
-        print("discard pile before execute turn " + str(self.environment.deck.faceup))
+        print("discard pile before execute turn " + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
         received = self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
         if received != -1 and received != 0:
             global rankCount
@@ -116,14 +114,8 @@ class Play(State):
                 print("SNOREM")
                 rankCount = 0 #reset count
                 # TODO current player starts next round by placing card of their choice
-        print("discard pile after executeTurn:" + str(self.environment.deck.faceup))
+        print("discard pile after executeTurn:" + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
         self.model.switchTurns()
-
-    def step(self):
-        if self.environment.currentPlayer.isEmptyHand():
-            return self.transitions[0].end
-        else:
-            return self
 
 class End(State):
     def __init__(self, name, environment, ui, model):
@@ -149,9 +141,9 @@ class SnipSnapSnoremGame(FSM):
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
-        start.addtransition(Transition(True, play))
-        play.addtransition(Transition(lambda: environment.deck.isEmpty(), end))
-        play.addtransition(Transition(True, play))
+        start.addtransition(Transition(lambda: True, play))
+        play.addtransition(Transition(lambda: environment.currentPlayer.isEmptyHand(), end))
+        play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)
         self.states.append(play)

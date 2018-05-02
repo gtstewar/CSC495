@@ -61,9 +61,10 @@ class SnipSnapSnoremPlayer(Player):
         for c in self.hand:
             if c.value == cardRank:
                 ret.append(c)
+                break
         # updates self.hand to have cards not in cardThatMatch
         self.hand = [c for c in self.hand if c not in ret]
-        return ret
+        return ret[0]
 
     def isEmptyHand(self):
         if len(self.hand) == 0:
