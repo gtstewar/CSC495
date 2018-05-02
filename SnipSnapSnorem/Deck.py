@@ -60,7 +60,6 @@ class deck:
 
     def placeCardOnDiscardPile(self, card):
         self.faceup.append(card)
-        print(self.faceup)
 
     def isEmpty(self):
         if len(self.facedown) == 0:

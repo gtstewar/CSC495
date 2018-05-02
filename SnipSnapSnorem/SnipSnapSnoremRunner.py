@@ -4,6 +4,7 @@ from interface import *
 from Deck import *
 from player import *
 from Environment import *
+import os
 
 #parse the incoming command line arguments
 def parse_arguments():

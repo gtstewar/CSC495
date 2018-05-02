@@ -90,6 +90,5 @@ class SnipSnapSnorem(Game):
         self.environment.deck.placeCardOnDiscardPile(card)
 
     def getFirstCardOnDiscardPile(self):
-        print("returned from getFirstCardOnDiscardPile: " + str(self.environment.deck.getTopCardofDiscardPile()))
         return self.environment.deck.getTopCardofDiscardPile()
 

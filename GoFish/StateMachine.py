@@ -25,7 +25,7 @@ class State(object):
     def step(self):
         for t in self.transitions:
             if t.guard is not None:
-                if t.guard == True:
+                if t.guard() == True:
                     return t.end
 
     def onEntry(self):
@@ -97,11 +97,11 @@ class Play(State):
         self.environment.currentPlayer.checkForBook()
         self.model.switchTurns()
 
-    def step(self):
-        if len(self.environment.deck.facedown) == 0:
-            return self.transitions[0].end
-        else:
-            return self
+    # def step(self):
+    #     if len(self.environment.deck.facedown) == 0:
+    #         return self.transitions[0].end
+    #     else:
+    #         return self
 
 class End(State):
     def __init__(self, name, environment, ui, model):
@@ -127,9 +127,9 @@ class GoFishGame(FSM):
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
-        start.addtransition(Transition(True, play))
+        start.addtransition(Transition(lambda: True, play))
         play.addtransition(Transition(lambda: environment.deck.isEmpty(), end))
-        play.addtransition(Transition(True, play))
+        play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)
         self.states.append(play)
