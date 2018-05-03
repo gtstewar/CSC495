@@ -73,8 +73,6 @@ class Start(State):
         self.model.firstCardOnDiscardPile(self.environment.currentPlayer.getCardToStart())
         global rankCount
         rankCount += 1
-        #self.ui.displayStartingCard(self.environment.currentPlayer.getCardToStart())
-
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
@@ -101,20 +99,19 @@ class Play(State):
             card = self.model.receiveCard()
         if card == -1: #current player has nothing to play
             self.model.switchTurns()
-        print("discard pile before execute turn " + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
         received = self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
         if received != -1 and received != 0:
             global rankCount
             rankCount += 1
             if rankCount == 1:
-                print("SNIP")
+                print("SNIP!")
             elif rankCount == 2:
-                print("SNAP")
+                print("SNAP!")
             elif(rankCount == 3):
-                print("SNOREM")
+                print("SNOREM! You will start the next round!")
                 rankCount = 0 #reset count
                 # TODO current player starts next round by placing card of their choice
-        print("discard pile after executeTurn:" + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
+        #print("discard pile after executeTurn:" + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
         self.model.switchTurns()
 
 class End(State):
@@ -153,4 +150,3 @@ class SnipSnapSnoremGame(FSM):
 
     def run(self):
         super(SnipSnapSnoremGame, self).run()
-

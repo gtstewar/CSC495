@@ -69,10 +69,9 @@ class SnipSnapSnorem(Game):
         receivedCards = 0
         if player.checkForCardByRank(card.value):
             # gives up 1 card with same rank as top of discard pile
-            received = player.giveUpCardByRank(card.value)
-            print(type(received))
+            receivedCards = player.giveUpCardByRank(card.value)
             # and places it on top of the discard pile
-            self.environment.deck.placeCardOnDiscardPile(received)
+            self.environment.deck.placeCardOnDiscardPile(receivedCards)
             print("You have a match! Placing your card on top of the pile.")
         else:
             print("You don't have any matches for this turn! :(")
@@ -86,6 +85,11 @@ class SnipSnapSnorem(Game):
         for player in self.environment.players:
             for i in range(numCards):
                 player.hand.append(self.environment.deck.drawCardFromTopOfDeck())
+        # if cards are not all evenly dealt, deal remaining cards
+        if len(self.environment.deck.facedown) != 0:
+            for i in range(len(self.environment.deck.facedown)):
+                self.environment.players[i].hand.append(self.environment.deck.drawCardFromTopOfDeck())
+
 
     def firstCardOnDiscardPile(self, card):
         self.environment.deck.placeCardOnDiscardPile(card)
