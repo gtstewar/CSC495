@@ -142,7 +142,7 @@ class SnipSnapSnoremGame(FSM):
         end = End('End', environment, ui, model=gameModel)
         #add transitions
         start.addtransition(Transition(lambda: True, play))
-        play.addtransition(Transition(lambda: environment.currentPlayer.isEmptyHand(), end))
+        play.addtransition(Transition(lambda: environment.previousPlayer.isEmptyHand(), end))
         play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)

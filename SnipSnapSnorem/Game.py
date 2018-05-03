@@ -15,9 +15,11 @@ class Game():
             if self.environment.players[i] == self.environment.currentPlayer:
                 if i == (len(self.environment.players) - 1):
                     self.environment.currentPlayer = self.environment.players[0]
+                    self.environment.previousPlayer = self.environment.players[len(self.environment.players) - 1]
                     break
                 else:
                     self.environment.currentPlayer = self.environment.players[i + 1]
+                    self.environment.previousPlayer = self.environment.players[i]
                     break
 
 class SnipSnapSnorem(Game):

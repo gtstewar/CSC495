@@ -4,3 +4,4 @@ class Environment():
         self.deck = deck
         self.winners = []
         self.currentPlayer = currentPlayer
+        self.previousPlayer = None
