@@ -37,52 +37,6 @@ class Interface:
         # works for both windows and unix based Terminal windows
         os.system('cls||clear')
 
-    # # top half of dash(public information about other players hands)
-    # def displayOtherPlayersInfo(self):
-    #     print(self.environment.currentPlayer.name + "'s turn")
-    #     # first line - print players names
-    #     print('            ', end='')
-    #     for player in self.environment.players:
-    #         if self.environment.currentPlayer is not player:
-    #             print(player.name + '   ', end='')
-    #     # print dashed lines under players names
-    #     print('\n            ', end='')
-    #     for player in self.environment.players:
-    #         if self.environment.currentPlayer is not player:
-    #             for i in range(len(player.name)):
-    #                 print('-', end='')
-    #             print('   ', end='')
-    #     # print each players number of cards except for current player
-    #     print('\n# Of Cards  ', end='')
-    #     for player in self.environment.players:
-    #         if self.environment.currentPlayer is not player:
-    #             for i in range(int(len(player.name) / 2)):
-    #                 print(' ', end='')
-    #             print(len(player.hand), end='')
-    #             for i in range(int(len(player.name) / 2)):
-    #                 print(' ', end='')
-    #             print('   ', end='')
-    #     # print each players number of books except for current player
-    #     print('\n# Of Books  ', end='')
-    #     for player in self.environment.players:
-    #         if self.environment.currentPlayer is not player:
-    #             for i in range(int(len(player.name) / 2)):
-    #                 print(' ', end='')
-    #             print(player.num_books, end='')
-    #             for i in range(int(len(player.name) / 2)):
-    #                 print(' ', end='')
-    #             print('   ', end='')
-    #     # print dashed line underneath provided information
-    #     print('\n')
-    #     lineLength = 12
-    #     lineLength += 3 * (len(self.environment.players) - 1)
-    #     for player in self.environment.players:
-    #         if player is not self.environment.currentPlayer:
-    #             lineLength += len(player.name)
-    #     for i in range(lineLength):
-    #         print('-', end='')
-    #     print('')
-
     # prints a row of cards
     def printCards(self, rowLength, startNum, cardsToPrint):
 
@@ -108,8 +62,7 @@ class Interface:
 
     # prints the hand plus other relevant information of player (bottom half of the dash)
     def displayCurrentPlayersInfo(self):
-        print(self.environment.currentPlayer.name + "'s turn")
-        # first line - print players names
+        self.environment.currentPlayer.sortHandByRank()
         print('Current Hand:')
         cardsToDisplay = []
         i = 1

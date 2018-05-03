@@ -3,7 +3,6 @@ from interface import *
 from Deck import *
 from player import *
 from Environment import *
-import sys
 
 rankCount = 0
 
@@ -23,7 +22,6 @@ class State(object):
 
     def addtransition(self, transition):
         self.transitions.append(transition)
-        # transition.actions[0]()
 
     def step(self):
         for t in self.transitions:
@@ -79,6 +77,8 @@ class Play(State):
         self.model = model
 
     def onEntry(self):
+        print("------------------------------------------------------")
+        self.ui.displayMessageToUser(str(self.environment.currentPlayer.name) + "'s turn")
         #display pertinent player info
         self.ui.displayMessageToUser("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
         cardToDisplay = []
@@ -107,9 +107,14 @@ class Play(State):
             elif(rankCount == 3):
                 self.ui.displayMessageToUser("SNOREM! You will start the next round! Choose any card from your hand by typing in the corresponding number.")
                 rankCount = 0 #reset count
+                self.ui.displayDash()
                 self.ui.promptUserForCard()
                 card = self.model.receiveCard()
-                self.ui.displayDash()
+                while card is None:
+                    self.ui.displayMessageToUser('Invalid Card')
+                    self.ui.promptUserForCard()
+                    # reads user input for card
+                    card = self.model.receiveCard()
                 self.model.executeTurn(card, self.environment.currentPlayer)
         self.model.switchTurns()
 
@@ -133,7 +138,6 @@ class SnipSnapSnoremGame(FSM):
         gameModel = SnipSnapSnorem(environment)
         #create the states
         start = Start('Start', environment, ui, model=gameModel)
-        # super(GoFishGame, self).__init__(start)
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
