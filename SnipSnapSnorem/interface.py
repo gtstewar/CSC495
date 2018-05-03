@@ -108,6 +108,8 @@ class Interface:
 
     # prints the hand plus other relevant information of player (bottom half of the dash)
     def displayCurrentPlayersInfo(self):
+        print(self.environment.currentPlayer.name + "'s turn")
+        # first line - print players names
         print('Current Hand:')
         cardsToDisplay = []
         i = 1

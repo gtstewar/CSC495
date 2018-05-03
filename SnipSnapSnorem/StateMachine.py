@@ -56,7 +56,7 @@ class FSM(object):
             if isinstance(self.currentstate, End) :
                 self.currentstate.onEntry()
                 break
-# GOFISH States -------------------------------------------------
+# SNIPSNAPSNOREM States -------------------------------------------------
 
 class Start(State):
     def __init__(self, name, environment, ui, model):
@@ -71,8 +71,6 @@ class Start(State):
         self.model.setUp()
         # place one of first player's cards on top of discard pile
         self.model.firstCardOnDiscardPile(self.environment.currentPlayer.getCardToStart())
-        global rankCount
-        rankCount += 1
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
@@ -85,7 +83,6 @@ class Play(State):
         self.ui.displayMessageToUser("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
         cardToDisplay = []
         topCard = self.model.getFirstCardOnDiscardPile()
-        print("State machine card: " + str(self.model.getFirstCardOnDiscardPile().suit.name + ' ' + self.model.getFirstCardOnDiscardPile().value.name))
         cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
         self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
@@ -104,14 +101,16 @@ class Play(State):
             global rankCount
             rankCount += 1
             if rankCount == 1:
-                print("SNIP!")
+                self.ui.displayMessageToUser("SNIP!")
             elif rankCount == 2:
-                print("SNAP!")
+                self.ui.displayMessageToUser("SNAP!")
             elif(rankCount == 3):
-                print("SNOREM! You will start the next round!")
+                self.ui.displayMessageToUser("SNOREM! You will start the next round! Choose any card from your hand by typing in the corresponding number.")
                 rankCount = 0 #reset count
-                # TODO current player starts next round by placing card of their choice
-        #print("discard pile after executeTurn:" + str(self.environment.deck.faceup[len(self.environment.deck.faceup) - 1].value.name))
+                self.ui.promptUserForCard()
+                card = self.model.receiveCard()
+                self.ui.displayDash()
+                self.model.executeTurn(card, self.environment.currentPlayer)
         self.model.switchTurns()
 
 class End(State):
