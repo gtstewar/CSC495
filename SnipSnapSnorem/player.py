@@ -43,9 +43,6 @@ class SnipSnapSnoremPlayer(Player):
 
     def checkForCardByRank(self, cardRank):
         for c in self.hand:
-            # print("Checking...")
-            # print("c.value: " + str(c.value))
-            # print("cardRank: " + str(cardRank))
             if c.value == cardRank:
                 return True
         return False

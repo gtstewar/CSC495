@@ -38,21 +38,6 @@ class SnipSnapSnorem(Game):
             return False
         return True
 
-    def receivePlayer(self):
-        if not self.environment.currentPlayer.ai:
-            p = input()
-            if not self.validPlayerInput(p):
-                return None
-            else:
-                p = int(p)
-                i = 1
-                for player in self.environment.players:
-                    if player != self.environment.currentPlayer and p == i:
-                        return player
-                    elif player != self.environment.currentPlayer:
-                        i += 1
-        return self.environment.currentPlayer.computerPickAPlayer(self.environment)
-
     def receiveCard(self):
         if not self.environment.currentPlayer.ai:
             card = input()
@@ -72,7 +57,7 @@ class SnipSnapSnorem(Game):
             receivedCards = player.giveUpCardByRank(card.value)
             # and places it on top of the discard pile
             self.environment.deck.placeCardOnDiscardPile(receivedCards)
-            print("You have a match! Placing your card on top of the pile.")
+            print("Placing your card on top of the pile.")
         else:
             print("You don't have any matches for this turn! :(")
             receivedCards = -1

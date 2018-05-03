@@ -114,3 +114,23 @@ There is no real opportunity to bluff in this game
 ### Turn Structure:
 Turn structure remains constant the whole game
 
+# Snip Snap Snorem
+### How to Win:
+The goal is be the first player to get rid of all of their cards.</br>
+### Rank of Cards:
+The cards from from 2 (low) to Ace (high).</br>
+Only the card numbers are relevant; suits can be ignored.
+### How to Deal:
+Any player deals one card face up to each player. The player with the lowest card is the dealer. The dealer shuffles the cards.</br>
+The dealer deals out cards one by one to each player until the deck is empty. Depending on the number of players, some players will have more cards than others, but that's okay.
+### How to Play:
+Before beginning the game, a the first player chooses a card from their hand and places it face-up in the discard pile.</br>
+The next player looks to see if they have a card of the same rank. If they do, they place it face-up on top of the card in the discard pile, saying "Snip".</br>
+This continues and as players place down a card of the same rank, they say "Snap", then "Snorem". Whoever places the last card of the rank ("Snorem") wins the right to start the next round with the card of their choice.
+The play continues until a player empties their hand.
+### Strategy & How to Win:
+Players may lead with a card in which they have more than one of a kind to increase their chances of saying "Snorem".
+### How to Bluff:
+There is no real opportunity to bluff in this game
+### Turn Structure:
+When a player wins a round, they start the next round, and the play continues from that point.

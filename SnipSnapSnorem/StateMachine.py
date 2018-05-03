@@ -82,7 +82,7 @@ class Play(State):
         #display pertinent player info
         self.ui.displayMessageToUser("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
         cardToDisplay = []
-        topCard = self.model.getFirstCardOnDiscardPile()
+        self.model.getFirstCardOnDiscardPile()
         cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
         self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
@@ -125,7 +125,7 @@ class End(State):
         self.model = model
 
     def onEntry(self):
-        #print winners and exit
+        #print winner and exit
         self.model.findWinners()
         self.ui.printWinners()
         return True
