@@ -49,6 +49,32 @@ class BartokPlayer(Player):
 # a.get(CD(Diamond, King))
 # a.play(L[[CD(Spade, Four)]])
 
+class SnipSnapSnoremPlayer(Pile):
+    def __init__(self, is_ai, number):
+        super(SnipSnapSnoremPlayer, self).__init__([])
+        self.ai = is_ai
+        if not self.ai:
+            print('Enter your name Player ' + str(number + 1) + ' : ')
+            self.name = sys.stdin.readline().strip()
+        else:
+            self.name = 'Computer ' + str(number + 1)
+
+        def display_current_hand(self):
+            temp_list = L[self.cards]
+            list_len = len(self.cards)
+            print_formatted(hand_show % temp_list)
+
+            for i in range(list_len):
+                print "  {:>2}   ".format(i),
+            print ""
+
+        def __contains__(self, item):
+            for i in self.cards:
+                if i == item:
+                    return True
+            return False
+
+
 class GoFishPlayer(Pile):
     def __init__(self, is_ai, number):
         super(GoFishPlayer, self).__init__([])

@@ -4,6 +4,8 @@ from Deck import *
 from player import *
 from Environment import *
 
+rankCount = 0
+
 class Transition(object):
     def __init__(self, guard, end):
         self.guard = guard
@@ -20,11 +22,10 @@ class State(object):
 
     def addtransition(self, transition):
         self.transitions.append(transition)
-        # transition.actions[0]()
 
     def step(self):
         for t in self.transitions:
-            if t.guard is not None:
+            if t.guard() is not None:
                 if t.guard() == True:
                     return t.end
 
@@ -53,7 +54,7 @@ class FSM(object):
             if isinstance(self.currentstate, End) :
                 self.currentstate.onEntry()
                 break
-# GOFISH States -------------------------------------------------
+# SNIPSNAPSNOREM States -------------------------------------------------
 
 class Start(State):
     def __init__(self, name, environment, ui, model):
@@ -63,8 +64,11 @@ class Start(State):
         self.model = model
 
     def onEntry(self):
+        self.ui.displayMessageToUser("Welcome to Snip Snap Snorem!")
         #deal cards
         self.model.setUp()
+        # place one of first player's cards on top of discard pile
+        self.model.firstCardOnDiscardPile(self.environment.currentPlayer.getCardToStart())
 
 class Play(State):
     def __init__(self, name, environment, ui, model):
@@ -73,10 +77,14 @@ class Play(State):
         self.model = model
 
     def onEntry(self):
-        #if hand is empty, pick up card
-        if self.environment.currentPlayer.isEmptyHand():
-            self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
+        print("------------------------------------------------------")
+        self.ui.displayMessageToUser(str(self.environment.currentPlayer.name) + "'s turn")
         #display pertinent player info
+        self.ui.displayMessageToUser("Choose a card from your hand with the same rank as the following card by typing in the corresponding number.\nIf not, select any card in your hand.")
+        cardToDisplay = []
+        self.model.getFirstCardOnDiscardPile()
+        cardToDisplay.append(self.ui.getCardToDisplay(self.model.getFirstCardOnDiscardPile()))
+        self.ui.printCards(1, 1, cardToDisplay)
         self.ui.displayDash()
         # Block for a correct card selection
         self.ui.promptUserForCard()
@@ -84,24 +92,31 @@ class Play(State):
         while card is None:
             self.ui.displayMessageToUser('Invalid Card')
             self.ui.promptUserForCard()
+            # reads user input for card
             card = self.model.receiveCard()
-        #Block for a correct Player selection
-        self.ui.promptUserForPlayerToAsk()
-        playerToAsk = self.model.receivePlayer()
-        while playerToAsk is None:
-            self.ui.displayMessageToUser('Invalid Player')
-            self.ui.promptUserForPlayerToAsk()
-            playerToAsk =self.model.receivePlayer()
-        receivedCards = self.model.executeTurn(card, playerToAsk)
-        self.ui.receivedCardsMessage(receivedCards)
-        self.environment.currentPlayer.checkForBook()
+        if card == -1: #current player has nothing to play
+            self.model.switchTurns()
+        received = self.model.executeTurn(self.model.getFirstCardOnDiscardPile(), self.environment.currentPlayer)
+        if received != -1 and received != 0:
+            global rankCount
+            rankCount += 1
+            if rankCount == 1:
+                self.ui.displayMessageToUser("SNIP!")
+            elif rankCount == 2:
+                self.ui.displayMessageToUser("SNAP!")
+            elif(rankCount == 3):
+                self.ui.displayMessageToUser("SNOREM! You will start the next round! Choose any card from your hand by typing in the corresponding number.")
+                rankCount = 0 #reset count
+                self.ui.displayDash()
+                self.ui.promptUserForCard()
+                card = self.model.receiveCard()
+                while card is None:
+                    self.ui.displayMessageToUser('Invalid Card')
+                    self.ui.promptUserForCard()
+                    # reads user input for card
+                    card = self.model.receiveCard()
+                self.model.executeTurn(card, self.environment.currentPlayer)
         self.model.switchTurns()
-
-    # def step(self):
-    #     if len(self.environment.deck.facedown) == 0:
-    #         return self.transitions[0].end
-    #     else:
-    #         return self
 
 class End(State):
     def __init__(self, name, environment, ui, model):
@@ -110,25 +125,24 @@ class End(State):
         self.model = model
 
     def onEntry(self):
-        #print winners and exit
+        #print winner and exit
         self.model.findWinners()
         self.ui.printWinners()
         return True
 
-#GOFIsh Machine ----------------------------------------------------------
-class GoFishGame(FSM):
+#SnipSnapSnorem Machine ----------------------------------------------------------
+class SnipSnapSnoremGame(FSM):
     def __init__(self, environment, ui):
         self.states = []
         #initate the model for the game
-        gameModel = GoFish(environment)
+        gameModel = SnipSnapSnorem(environment)
         #create the states
         start = Start('Start', environment, ui, model=gameModel)
-        # super(GoFishGame, self).__init__(start)
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
         start.addtransition(Transition(lambda: True, play))
-        play.addtransition(Transition(lambda: environment.deck.isEmpty(), end))
+        play.addtransition(Transition(lambda: environment.previousPlayer.isEmptyHand(), end))
         play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)
@@ -138,5 +152,4 @@ class GoFishGame(FSM):
         self.run()
 
     def run(self):
-        super(GoFishGame, self).run()
-
+        super(SnipSnapSnoremGame, self).run()
