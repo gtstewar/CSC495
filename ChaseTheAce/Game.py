@@ -1,4 +1,3 @@
-
 def RepresentsInt(s):
     try:
         int(s)
@@ -11,20 +10,46 @@ class Game():
         self.environment = environment
 
     def switchTurns(self):
-        for i in range(len(self.environment.players)):
-            if self.environment.players[i] == self.environment.currentPlayer:
-                if i == (len(self.environment.players) - 1):
-                    self.environment.currentPlayer = self.environment.players[0]
-                   # self.environment.previousPlayer = self.environment.players[len(self.environment.players) - 1]
-                    self.environment.nextPlayer = self.environment.players[1]
-                    self.environment.nextNextPlayer = self.environment.players[2]
-                    break
-                else:
-                    self.environment.currentPlayer = self.environment.players[i + 1]
-                    # self.environment.previousPlayer = self.environment.players[i]
-                    self.environment.nextPlayer = self.environment.players[i + 2]
-                    self.environment.nextNextPlayer = self.environment.players[i + 3]
-                    break
+        if len(self.environment.players) == 3:
+            for i in range(len(self.environment.players)):
+                if self.environment.players[i] == self.environment.currentPlayer:
+                    if i == (len(self.environment.players) - 1):
+                        self.environment.currentPlayer = self.environment.players[0]    #new current at beginning
+                        self.environment.nextPlayer = self.environment.players[1]
+                        self.environment.nextNextPlayer = self.environment.players[2]
+                        break
+                    else:
+                        self.environment.currentPlayer = self.environment.players[i + 1]
+                        if i + 1 == (len(self.environment.players) - 1):    #if new current player at end of array
+                            self.environment.nextPlayer = self.environment.players[0]
+                            self.environment.nextNextPlayer = self.environment.players[1]
+                        else:   #new current in middle of array [1]
+                            self.environment.nextPlayer = self.environment.players[2]
+                            self.environment.nextNextPlayer = self.environment.players[0]
+                        break
+
+        elif len(self.environment.players) == 4:
+            for i in range(len(self.environment.players)):
+                if self.environment.players[i] == self.environment.currentPlayer:
+                    if i == (len(self.environment.players) - 1):
+                        self.environment.currentPlayer = self.environment.players[0]    #new current at beginning
+                        self.environment.nextPlayer = self.environment.players[1]
+                        self.environment.nextNextPlayer = self.environment.players[2]
+                        break
+                    else:
+                        self.environment.currentPlayer = self.environment.players[i + 1]
+                        if i + 1 == (len(self.environment.players) - 1):    #if new current player at end of array
+                            self.environment.nextPlayer = self.environment.players[0]
+                            self.environment.nextNextPlayer = self.environment.players[1]
+                        else:   #new current in middle of array [1 or 2]
+                            if i == 1:
+                                self.environment.nextPlayer = self.environment.players[2]
+                                self.environment.nextNextPlayer = self.environment.players[3]
+                            if i == 2:
+                                self.environment.nextPlayer = self.environment.players[0]
+                                self.environment.nextNextPlayer = self.environment.players[1]
+                        break
+
 
 class ChaseTheAce(Game):
 
@@ -67,4 +92,3 @@ class ChaseTheAce(Game):
         for player in self.environment.players:
             if player.isEmptyHand():
                 self.environment.winners.append(player)
-

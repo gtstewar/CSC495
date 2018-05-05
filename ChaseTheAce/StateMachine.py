@@ -4,7 +4,7 @@ from Deck import *
 from player import *
 from Environment import *
 
-count = 1
+count = 0
 
 class Transition(object):
     def __init__(self, guard, end):
@@ -74,8 +74,6 @@ class Play(State):
         self.model = model
 
     def onEntry(self):
-        global count
-        count += 1
         print("------------------------------------------------------")
         self.ui.displayMessageToUser(str(self.environment.currentPlayer.name) + "'s turn")
         self.ui.displayMessageToUser("The goal of the game is to have the Ace card or a card that is closest in rank to Ace, where 2 is the lowest and Ace is the highest.")
@@ -90,7 +88,9 @@ class Play(State):
             choice = self.model.receiveChoice()
         received = self.model.executeTurn(choice, self.environment.nextPlayer)
         self.model.switchTurns()
-
+        global count
+        count += 1
+        print("count " + str(count))
 class End(State):
     def __init__(self, name, environment, ui, model):
         super(End, self).__init__(name, environment)
@@ -114,8 +114,9 @@ class ChaseTheAceGame(FSM):
         play = Play('Play', environment, ui, model=gameModel)
         end = End('End', environment, ui, model=gameModel)
         #add transitions
+        global count
         start.addtransition(Transition(lambda: True, play))
-        play.addtransition(Transition(lambda: count == len(environment.players), end))
+        play.addtransition(Transition(lambda: count == pow(len(environment.players), 2), end))
         play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)
