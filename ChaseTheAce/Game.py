@@ -12,7 +12,7 @@ class Game():
     def switchTurns(self):
         if len(self.environment.players) == 3:
             for i in range(len(self.environment.players)):
-                if self.environment.players[i] == self.environment.currentPlayer:
+                if self.environment.players[i] == self.environment.currentPlayer: # old player at index i
                     if i == (len(self.environment.players) - 1):
                         self.environment.currentPlayer = self.environment.players[0]    #new current at beginning
                         self.environment.nextPlayer = self.environment.players[1]
@@ -30,24 +30,26 @@ class Game():
 
         elif len(self.environment.players) == 4:
             for i in range(len(self.environment.players)):
-                if self.environment.players[i] == self.environment.currentPlayer:
+                if self.environment.players[i] == self.environment.currentPlayer: #find index of current Player
+                    print("player " + str(i))
                     if i == (len(self.environment.players) - 1):
+                        print("block 1")
                         self.environment.currentPlayer = self.environment.players[0]    #new current at beginning
                         self.environment.nextPlayer = self.environment.players[1]
                         self.environment.nextNextPlayer = self.environment.players[2]
                         break
                     else:
+                        print("block 2")
                         self.environment.currentPlayer = self.environment.players[i + 1]
-                        if i + 1 == (len(self.environment.players) - 1):    #if new current player at end of array
+                        if i + 1 == 3:    #if new current player at end of array
                             self.environment.nextPlayer = self.environment.players[0]
                             self.environment.nextNextPlayer = self.environment.players[1]
-                        else:   #new current in middle of array [1 or 2]
-                            if i == 1:
-                                self.environment.nextPlayer = self.environment.players[2]
-                                self.environment.nextNextPlayer = self.environment.players[3]
-                            if i == 2:
-                                self.environment.nextPlayer = self.environment.players[0]
-                                self.environment.nextNextPlayer = self.environment.players[1]
+                        if i + 1 == 1:
+                            self.environment.nextPlayer = self.environment.players[2]
+                            self.environment.nextNextPlayer = self.environment.players[3]
+                        elif i + 1 == 2:
+                            self.environment.nextPlayer = self.environment.players[3]
+                            self.environment.nextNextPlayer = self.environment.players[1]
                         break
 
 
@@ -64,8 +66,10 @@ class ChaseTheAce(Game):
         if choice == "change":
             if nextPlayer.hand[0].value != 13:
                 # get current player's card to give up
+                print("current: " + str(self.environment.currentPlayer.name))
                 cardToGiveUp1 = self.environment.currentPlayer.giveCard()
                 # get next player's card to give up
+                print("next: " + str(nextPlayer.name))
                 cardToGiveUp2 = nextPlayer.giveCard()
                 # current player gets new card
                 self.environment.currentPlayer.hand.append(cardToGiveUp2)
@@ -80,6 +84,8 @@ class ChaseTheAce(Game):
         # each player gets a single card
         for player in self.environment.players:
             player.hand.append(self.environment.deck.drawCardFromTopOfDeck())
+        for player in self.environment.players:
+            print(player.hand)
 
 
     def firstCardOnDiscardPile(self, card):

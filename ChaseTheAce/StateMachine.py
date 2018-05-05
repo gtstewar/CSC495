@@ -90,7 +90,6 @@ class Play(State):
         self.model.switchTurns()
         global count
         count += 1
-        print("count " + str(count))
 class End(State):
     def __init__(self, name, environment, ui, model):
         super(End, self).__init__(name, environment)
