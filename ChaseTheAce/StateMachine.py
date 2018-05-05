@@ -87,6 +87,7 @@ class Play(State):
             self.ui.promptUserForChoice()
             choice = self.model.receiveChoice()
         received = self.model.executeTurn(choice, self.environment.nextPlayer)
+        # TODO keep track of who won each round and keep score. update end state to recognize winner
         self.model.switchTurns()
         global count
         count += 1
@@ -115,6 +116,7 @@ class ChaseTheAceGame(FSM):
         #add transitions
         global count
         start.addtransition(Transition(lambda: True, play))
+        play.addtransition(Transition(lambda: count % (len(environment.players)) == 0, start))
         play.addtransition(Transition(lambda: count == pow(len(environment.players), 2), end))
         play.addtransition(Transition(lambda: True, play))
         #add states to machine
