@@ -87,8 +87,3 @@ class Interface:
 
     def displayMessageToUser(self, message):
         print(message)
-
-    def printWinners(self):
-        for player in self.environment.winners:
-            print(player.name + ' ', end='')
-        print('won the game!')

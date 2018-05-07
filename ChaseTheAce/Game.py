@@ -1,4 +1,5 @@
 from Deck import *
+import operator
 
 def RepresentsInt(s):
     try:
@@ -10,6 +11,13 @@ def RepresentsInt(s):
 class Game():
     def __init__(self, environment):
         self.environment = environment
+        self.winnerCount = {}
+        if len(self.environment.players) == 3:
+            self.winnerCount = {self.environment.players[0].name: 0, self.environment.players[1].name: 0,
+                                self.environment.players[2].name: 0}
+        if len(self.environment.players) == 4:
+            self.winnerCount = {self.environment.players[0].name: 0, self.environment.players[1].name: 0,
+                                self.environment.players[2].name: 0, self.environment.players[3].name: 0}
 
     def switchTurns(self):
         if len(self.environment.players) == 3:
@@ -33,7 +41,6 @@ class Game():
         elif len(self.environment.players) == 4:
             for i in range(len(self.environment.players)):
                 if self.environment.players[i] == self.environment.currentPlayer: #find index of current Player
-                    print("player " + str(i))
                     if i == (len(self.environment.players) - 1):
                         self.environment.currentPlayer = self.environment.players[0]    #new current at beginning
                         self.environment.nextPlayer = self.environment.players[1]
@@ -54,7 +61,6 @@ class Game():
 
 
 class ChaseTheAce(Game):
-
     def receiveChoice(self):
         if not self.environment.currentPlayer.ai:
             choice = input()
@@ -118,6 +124,7 @@ class ChaseTheAce(Game):
             for card in player.hand:
                 if self.valueAsInt(card.value) == 1:     # if player has an Ace, they win!
                     winner = player
+                    self.winnerCount[winner.name] += 1
                     return winner
                 else:
                     if self.valueAsInt(card.value) > self.valueAsInt(highest):
@@ -125,4 +132,17 @@ class ChaseTheAce(Game):
             if self.valueAsInt(highest) > self.valueAsInt(totalHigh): # update winner
                 totalHigh = highest
                 winner = player
+        self.winnerCount[winner.name] += 1
+        print(self.winnerCount)
         return winner
+
+    def findOverallWinner(self):
+        winners = []
+        temp = max(self.winnerCount, key=self.winnerCount.get)
+        maxVal = self.winnerCount.get(temp)
+        for k, v in self.winnerCount.items():
+            if v == maxVal:
+                winners.append(k)
+        print(str(winners) + " wins the game! Congratulations!")
+
+

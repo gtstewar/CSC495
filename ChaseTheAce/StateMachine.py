@@ -89,13 +89,11 @@ class Play(State):
         received = self.model.executeTurn(choice, self.environment.nextPlayer)
         self.ui.displayMessageToUser("You are ending this turn with")
         self.ui.displayCurrentPlayersInfo()
-        # TODO keep track of who won each round and keep score. update end state to recognize winner
         self.model.switchTurns()
         global count
         count += 1
         if count % (len(self.environment.players)) == 0:
             self.ui.displayMessageToUser("This round's winner is " + self.model.findRoundWinner().name + "!")
-
 class End(State):
     def __init__(self, name, environment, ui, model):
         super(End, self).__init__(name, environment)
@@ -104,8 +102,7 @@ class End(State):
 
     def onEntry(self):
         #print winner and exit
-        self.model.findWinners()
-        self.ui.printWinners()
+        self.model.findOverallWinner()
         return True
 
 #ChaseTheAce Machine ----------------------------------------------------------
@@ -121,8 +118,8 @@ class ChaseTheAceGame(FSM):
         #add transitions
         global count
         start.addtransition(Transition(lambda: True, play))
-        play.addtransition(Transition(lambda: count % (len(environment.players)) == 0, start))
         play.addtransition(Transition(lambda: count == pow(len(environment.players), 2), end))
+        play.addtransition(Transition(lambda: count % (len(environment.players)) == 0, start))
         play.addtransition(Transition(lambda: True, play))
         #add states to machine
         self.states.append(start)
