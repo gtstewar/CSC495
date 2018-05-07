@@ -94,6 +94,9 @@ class Play(State):
         count += 1
         if count % (len(self.environment.players)) == 0:
             self.ui.displayMessageToUser("This round's winner is " + self.model.findRoundWinner().name + "!")
+            if count != pow(len(self.environment.players), 2):
+                print("Starting next round...\n")
+
 class End(State):
     def __init__(self, name, environment, ui, model):
         super(End, self).__init__(name, environment)

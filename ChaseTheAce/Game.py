@@ -70,19 +70,25 @@ class ChaseTheAce(Game):
     def executeTurn(self, choice, nextPlayer):
         # if the player chooses "change", swap cards with next player.
         if choice == "change":
-            if nextPlayer.hand[0].value != 13:
-                # get current player's card to give up
-                cardToGiveUp1 = self.environment.currentPlayer.giveCard()
-                # get next player's card to give up
-                cardToGiveUp2 = nextPlayer.giveCard()
-                # current player gets new card
-                self.environment.currentPlayer.hand.append(cardToGiveUp2)
-                # next player gets new card
-                nextPlayer.hand.append(cardToGiveUp1)
+            if self.environment.currentPlayer == self.environment.players[-1]: # if last player in list
+                card = self.environment.currentPlayer.hand[0]
+                # removes card from hand
+                self.environment.currentPlayer.hand.remove(card)
+                self.environment.currentPlayer.hand.append(self.environment.deck.drawCardFromTopOfDeck())
             else:
-                print(self.environment.nextPlayer.name + "has a King! Switching with next player...")
-                executeTurn(choice, self.environment.nextNextPlayer)
-            # TODO show new card
+                if nextPlayer.hand[0].value != 13:
+                    # get current player's card to give up
+                    cardToGiveUp1 = self.environment.currentPlayer.giveCard()
+                    # get next player's card to give up
+                    cardToGiveUp2 = nextPlayer.giveCard()
+                    # current player gets new card
+                    self.environment.currentPlayer.hand.append(cardToGiveUp2)
+                    # next player gets new card
+                    nextPlayer.hand.append(cardToGiveUp1)
+                else:
+                    print(self.environment.nextPlayer.name + "has a King! Switching with next player...")
+                    executeTurn(choice, self.environment.nextNextPlayer)
+
 
         # if the player chooses "stand", do nothing. end of turn.
 
@@ -133,7 +139,6 @@ class ChaseTheAce(Game):
                 totalHigh = highest
                 winner = player
         self.winnerCount[winner.name] += 1
-        print(self.winnerCount)
         return winner
 
     def findOverallWinner(self):
@@ -143,6 +148,6 @@ class ChaseTheAce(Game):
         for k, v in self.winnerCount.items():
             if v == maxVal:
                 winners.append(k)
-        print(str(winners) + " wins the game! Congratulations!")
+        print(str(winners) + " is the overall winner of the game! Congratulations!")
 
 
