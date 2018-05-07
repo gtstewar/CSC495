@@ -26,6 +26,16 @@ run `python ./GoFish/GoFishRunner.py` with command line arguments:
 
 Example: **python ./GoFish/GoFishRunner.py -c 2 -p 2 -n 2 -s 0**
 
+### Snip, Snap, Snorem
+run `python ./SnipSnapSnorem/SnipSnapSnorem.py` with command line arguments:
+* -c {number of computers}
+* -p {number of human players}
+
+### Chase The Ace
+run `python ./ChaseTheAce/ChaseTheAce.py` with command line arguments:
+* -c {number of computers}
+* -p {number of human players}
+
 # Bartok Rules
 ...as described at https://en.wikipedia.org/wiki/Bartok_(card_game)
 ### How to Win:
