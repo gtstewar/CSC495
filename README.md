@@ -134,3 +134,26 @@ Players may lead with a card in which they have more than one of a kind to incre
 There is no real opportunity to bluff in this game
 ### Turn Structure:
 When a player wins a round, they start the next round, and the play continues from that point.
+
+# Chase The Ace
+### How to Win:
+The goal is have an Ace card or to have a card that is highest in rank.</br>
+### Rank of Cards:
+The cards from from 2 (low) to Ace (high).</br>
+Only the card numbers are relevant; suits can be ignored.
+### How to Deal:
+Any player deals one card face up to each player. The player with the lowest card is the dealer. The dealer shuffles the cards.</br>
+The dealer deals one card to each player. The remaining cards are grouped into a deck facing down.
+### How to Play:
+There are n^2 rounds in each game, where n is the number of players in the game. This ensure that each player has an opportunity to start the game.</br>
+Any player can start the round, and the play continues clockwise.</br>
+During their turn, the current player inspects their card and decides whether they want to keep their card to swap their card with the next player. If they want to keep their card, they say "stand", and if they want to swap cards, they say "change".</br>
+If the player decides to change the card, they slide it face down to the next player, and that player must exchange cards unless they have a king. If they have a king, they lay the king down face up as proof. In this event, the player must move onto the next player and exchange cards with them.</br>
+The round ends when each player has had the opportunity to stand or change. At the end of each round, the player who has the highest ranking card gets a point.</br>
+The game repeats until n^2 rounds have been played. Whoever has the most points, wins the game.
+### Strategy & How to Win:
+When changing cards, players risk changing for a lower-ranked card. Players may increase their chances of winning by opting to "stand," or keep their current card if they have a high-ranking card or by changing their card if they have a low-ranking card.
+### How to Bluff:
+There is no real opportunity to bluff in this game
+### Turn Structure:
+The turn structure remains consistent throughout the game -- clockwise. However, at the start of each new round, a different player that has not started a round before must begin the round.
