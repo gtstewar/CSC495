@@ -48,19 +48,6 @@ class deck:
             self.faceup = []
         return self.facedown.pop()
 
-    def placeTopCardOfDeckOnDiscardPile(self):
-        if len(self.facedown) == 0:
-            random.shuffle(self.faceup)
-            self.facedown = self.faceup
-            self.faceup = []
-        self.faceup.append(self.facedown.pop())
-
-    def getTopCardofDiscardPile(self):
-        return self.faceup[len(self.faceup) - 1]
-
-    def placeCardOnDiscardPile(self, card):
-        self.faceup.append(card)
-
     def isEmpty(self):
         if len(self.facedown) == 0:
             return True

@@ -1,3 +1,5 @@
+from Deck import *
+
 def RepresentsInt(s):
     try:
         int(s)
@@ -74,6 +76,8 @@ class ChaseTheAce(Game):
             else:
                 print(self.environment.nextPlayer.name + "has a King! Switching with next player...")
                 executeTurn(choice, self.environment.nextNextPlayer)
+            # TODO show new card
+
         # if the player chooses "stand", do nothing. end of turn.
 
     def setUp(self):
@@ -91,7 +95,34 @@ class ChaseTheAce(Game):
     def getFirstCardOnDiscardPile(self):
         return self.environment.deck.getTopCardofDiscardPile()
 
-    def findWinners(self):
+    def valueAsInt(self, value):
+        if value == Value.Ace: return 1
+        if value == Value.Two: return 2
+        if value == Value.Three: return 3
+        if value == Value.Four: return 4
+        if value == Value.Five: return 5
+        if value == Value.Six: return 6
+        if value == Value.Seven: return 7
+        if value == Value.Eight: return 8
+        if value == Value.Nine: return 9
+        if value == Value.Ten: return 10
+        if value == Value.Jack: return 11
+        if value == Value.Queen: return 12
+        if value == Value.King: return 13
+
+    def findRoundWinner(self):
+        winner = None
+        totalHigh = Value.Two
         for player in self.environment.players:
-            if player.isEmptyHand():
-                self.environment.winners.append(player)
+            highest = Value.Two #find each player's highest card
+            for card in player.hand:
+                if self.valueAsInt(card.value) == 1:     # if player has an Ace, they win!
+                    winner = player
+                    return winner
+                else:
+                    if self.valueAsInt(card.value) > self.valueAsInt(highest):
+                        highest = card.value
+            if self.valueAsInt(highest) > self.valueAsInt(totalHigh): # update winner
+                totalHigh = highest
+                winner = player
+        return winner

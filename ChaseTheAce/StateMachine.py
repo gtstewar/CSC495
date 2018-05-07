@@ -87,10 +87,15 @@ class Play(State):
             self.ui.promptUserForChoice()
             choice = self.model.receiveChoice()
         received = self.model.executeTurn(choice, self.environment.nextPlayer)
+        self.ui.displayMessageToUser("You are ending this turn with")
+        self.ui.displayCurrentPlayersInfo()
         # TODO keep track of who won each round and keep score. update end state to recognize winner
         self.model.switchTurns()
         global count
         count += 1
+        if count % (len(self.environment.players)) == 0:
+            self.ui.displayMessageToUser("This round's winner is " + self.model.findRoundWinner().name + "!")
+
 class End(State):
     def __init__(self, name, environment, ui, model):
         super(End, self).__init__(name, environment)

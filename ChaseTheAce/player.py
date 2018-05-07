@@ -7,8 +7,6 @@ class Player(object):
         self.name = name
         self.number = number
         self.hand = []
-        self.num_books = 0
-
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
@@ -25,18 +23,6 @@ class ChaseTheAcePlayer(Player):
 
     def sortHandByRank(self):
         self.hand.sort()
-
-    def checkForCard(self, card):
-        for c in self.hand:
-            if c.value == card.value and c.suit == card.suit:
-                return True
-        return False
-
-    def checkForCardByRank(self, cardRank):
-        for c in self.hand:
-            if c.value == cardRank:
-                return True
-        return False
 
     def getCardToStart(self):
         startingCard = self.hand[0]
